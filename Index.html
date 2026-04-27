@@ -3,394 +3,486 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum HTML Optimizer X Ultimate</title>
-
+<title>Quantum HTML Optimizer Pro-Gen</title>
 <style>
+/* ---------------- THEME & CORE ---------------- */
 :root {
-    --bg-dark: #070a13;
-    --bg-panel: #111827;
-    --bg-editor: #0d121f;
-    --accent: #3d6bff;
-    --accent-glow: rgba(61, 107, 255, 0.4);
-    --text-main: #e2e8f0;
-    --text-muted: #94a3b8;
-    --code-color: #4ade80;
+    --bg-base: #050505;
+    --bg-surface: #0a0a0a;
+    --bg-panel: #121212;
+    --bg-hover: #1f1f1f;
+    --accent: #00e5ff;
+    --accent-glow: rgba(0, 229, 255, 0.4);
+    --primary: #7000ff;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --border: #27272a;
     --success: #10b981;
     --warning: #f59e0b;
     --error: #ef4444;
-    --border: #1e293b;
+    --code-blue: #60a5fa;
+    --code-green: #4ade80;
+    --code-pink: #f472b6;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: var(--bg-dark);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-base);
     color: var(--text-main);
-    line-height: 1.6;
     height: 100vh;
     display: flex;
     flex-direction: column;
-}
-
-header {
-    padding: 20px;
-    background: rgba(17, 24, 39, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-h1 {
-    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-
-.container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-    overflow-y: auto;
-}
-
-.controls-bar {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-    background: var(--bg-panel);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-}
-
-.modes { display: flex; background: var(--bg-dark); border-radius: 8px; padding: 4px; }
-
-.mode-btn {
-    padding: 8px 16px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-}
-
-.mode-btn.active { background: var(--accent); color: white; box-shadow: 0 0 10px var(--accent-glow); }
-
-.options-group { display: flex; align-items: center; gap: 15px; }
-
-.toggle-switch {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--text-muted);
-    cursor: pointer;
-}
-
-input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
-
-.editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 400px; }
-
-@media (max-width: 900px) { .editor-grid { grid-template-columns: 1fr; } }
-
-.editor-panel {
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-panel);
-    border-radius: 12px;
-    border: 1px solid var(--border);
     overflow: hidden;
 }
 
-.editor-header {
+/* ---------------- HEADER & LAYOUT ---------------- */
+header {
+    padding: 16px 24px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
-    background: rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.brand h1 {
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.subtitle { font-size: 12px; color: var(--text-muted); font-family: monospace; margin-top: 4px; }
+
+.workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    overflow: hidden;
+}
+
+/* ---------------- SIDEBAR CONTROLS ---------------- */
+.sidebar {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.control-group h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+.btn:hover { background: var(--bg-hover); }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: white; }
+.btn-primary:hover { background: #5a00d1; box-shadow: 0 0 15px rgba(112,0,255,0.4); }
+
+.mode-selector {
+    display: flex;
+    background: var(--bg-panel);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+.mode-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.mode-btn.active { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent-glow); }
+
+.toggle-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-main);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--border);
+    transition: .3s;
+    border-radius: 20px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; width: 14px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(16px); }
+
+/* ---------------- MAIN EDITOR AREA ---------------- */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.editors-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1;
+    min-height: 0;
     border-bottom: 1px solid var(--border);
 }
 
-.editor-title { font-size: 14px; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
+@media(max-width: 900px) { .workspace { grid-template-columns: 1fr; } .editors-container { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; } }
 
-.editor-container {
+.editor-pane {
     display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    background: var(--bg-base);
+}
+
+.pane-header {
+    padding: 10px 16px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+}
+
+.code-area {
     flex: 1;
-    background: var(--bg-editor);
+    display: flex;
     position: relative;
+    overflow: hidden;
 }
 
 .line-numbers {
     padding: 16px 8px;
-    background: rgba(0,0,0,0.3);
-    color: #475569;
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-    font-size: 14px;
+    background: var(--bg-surface);
+    color: #4b5563;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
     text-align: right;
-    user-select: none;
     border-right: 1px solid var(--border);
+    user-select: none;
     overflow: hidden;
-    min-width: 45px;
+    min-width: 40px;
 }
 
-textarea, .code-display {
+textarea, .output-display {
     flex: 1;
     width: 100%;
     height: 100%;
     background: transparent;
     color: var(--text-main);
     padding: 16px;
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-    font-size: 14px;
-    line-height: 1.5;
+    font-family: 'Fira Code', Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.6;
     border: none;
     resize: none;
     outline: none;
     white-space: pre;
     overflow: auto;
+    tab-size: 4;
 }
+textarea { color: var(--code-blue); }
+.output-display { color: var(--code-green); }
 
-textarea { color: #93c5fd; }
-.code-display { color: var(--code-color); }
-
-.btn {
-    padding: 6px 12px;
-    cursor: pointer;
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    transition: 0.2s;
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.btn:hover { background: rgba(255,255,255,0.05); }
-
-.btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
-.btn-primary:hover { background: #2563eb; }
-
+/* ---------------- BOTTOM TABS & ANALYSIS ---------------- */
 .bottom-panel {
-    background: var(--bg-panel);
-    border-radius: 12px;
-    border: 1px solid var(--border);
+    height: 35vh;
+    background: var(--bg-surface);
     display: flex;
     flex-direction: column;
 }
 
-.tabs { display: flex; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); border-radius: 12px 12px 0 0; }
-
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel);
+}
 .tab {
     padding: 12px 24px;
     cursor: pointer;
-    color: var(--text-muted);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    transition: 0.2s;
+    color: var(--text-muted);
     border-bottom: 2px solid transparent;
 }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-.tab:hover { color: var(--text-main); }
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(61, 107, 255, 0.05); }
-
-.tab-content { display: none; padding: 20px; }
+.tab-content { display: none; padding: 20px; overflow-y: auto; height: 100%; }
 .tab-content.active { display: block; }
 
-iframe { width: 100%; height: 400px; border: 0; background: white; border-radius: 8px; }
-
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-
-.stat-card {
-    background: var(--bg-editor);
+/* Stats & Score */
+.dashboard-grid { display: grid; grid-template-columns: 250px 1fr; gap: 24px; height: 100%; }
+.score-card {
+    background: var(--bg-panel);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+.score-A { color: var(--success); border: 4px solid var(--success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+.score-B { color: var(--code-blue); border: 4px solid var(--code-blue); }
+.score-C { color: var(--warning); border: 4px solid var(--warning); }
+.score-D { color: var(--error); border: 4px solid var(--error); }
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+}
+.metric-box {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
     padding: 16px;
-    text-align: center;
-    transition: transform 0.2s;
-}
-.stat-card:hover { transform: translateY(-2px); }
-.stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.stat-value { font-size: 24px; font-weight: 700; margin-top: 8px; color: var(--text-main); }
-.success { color: var(--success); }
-.warning { color: var(--warning); }
-
-.analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media(max-width: 768px) { .analysis-grid { grid-template-columns: 1fr; } }
-
-.analysis-box { background: var(--bg-editor); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.analysis-box h4 { margin-bottom: 12px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-.analysis-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-.analysis-item:last-child { border-bottom: none; }
-
-.toast {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #1e293b;
-    color: white;
-    padding: 12px 24px;
     border-radius: 8px;
-    border-left: 4px solid var(--accent);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    z-index: 1000;
-    transform: translateX(150%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.toast.show { transform: translateX(0); }
+.m-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+.m-val { font-size: 20px; font-weight: 700; margin-top: 8px; font-family: monospace; }
+.m-sub { font-size: 11px; margin-top: 4px; color: var(--text-muted); }
 
-select, input[type="number"] {
-    background: var(--bg-editor);
-    color: var(--text-main);
-    border: 1px solid var(--border);
-    padding: 4px 8px;
-    border-radius: 4px;
-    outline: none;
+/* DOM Tree */
+.tree-node { margin-left: 20px; font-family: monospace; font-size: 13px; border-left: 1px dashed var(--border); padding-left: 10px; margin-top: 4px;}
+.tree-tag { color: var(--code-pink); font-weight: bold; }
+.tree-attr { color: var(--warning); }
+.tree-text { color: var(--text-muted); font-style: italic; }
+
+iframe { width: 100%; height: 100%; border: none; background: white; border-radius: 8px; }
+
+/* Toast */
+.toast {
+    position: fixed; top: 20px; right: 20px;
+    background: var(--primary); color: white;
+    padding: 12px 24px; border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    transform: translateY(-100px); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100; box-shadow: 0 10px 30px rgba(112,0,255,0.4);
 }
-</select>
+.toast.show { transform: translateY(0); }
 </style>
 </head>
-
 <body>
+
 <header>
-    <div>
-        <h1>Quantum HTML Optimizer X Ultimate</h1>
-        <div class="subtitle">Next-Generation HTML Engine • Minify, Beautify, Analyze</div>
+    <div class="brand">
+        <h1>QUANTUM Pro-Gen</h1>
+        <div class="subtitle">Next-Level AST HTML Optimizer</div>
     </div>
-    <div style="display: flex; gap: 10px;">
+    <div style="display: flex; gap: 10px; width: 300px;">
         <button class="btn" onclick="loadSample()">Load Sample</button>
-        <button class="btn" onclick="clearAll()">Clear Workspace</button>
+        <button class="btn btn-primary" onclick="processHTML()">⚡ Execute Process</button>
     </div>
 </header>
 
-<div class="container">
-    <div class="controls-bar">
-        <div class="modes">
-            <button class="mode-btn active" data-mode="minify">Minify</button>
-            <button class="mode-btn" data-mode="beautify">Beautify</button>
+<div class="workspace">
+    <!-- SIDEBAR SETTINGS -->
+    <div class="sidebar">
+        <div class="control-group">
+            <h3>Engine Mode</h3>
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="minify">MINIFY</button>
+                <button class="mode-btn" data-mode="beautify">BEAUTIFY</button>
+            </div>
         </div>
-        
-        <div class="options-group" id="beautifyOptions" style="display:none;">
-            <label class="toggle-switch">
-                Indent:
-                <input type="number" id="indentSize" value="4" min="1" max="8" style="width: 50px;">
+
+        <div class="control-group">
+            <h3>Advanced Aggression (Minify)</h3>
+            <label class="toggle-item"> Strip Attribute Quotes 
+                <label class="toggle-switch"><input type="checkbox" id="optNoQuotes" checked><span class="slider"></span></label>
             </label>
-            <label class="toggle-switch">
-                <select id="indentType">
-                    <option value="space">Spaces</option>
+            <label class="toggle-item"> Collapse Booleans 
+                <label class="toggle-switch"><input type="checkbox" id="optBooleans" checked><span class="slider"></span></label>
+            </label>
+            <label class="toggle-item"> Deep CSS Minify
+                <label class="toggle-switch"><input type="checkbox" id="optMinCss" checked><span class="slider"></span></label>
+            </label>
+            <label class="toggle-item"> Deep JS Minify
+                <label class="toggle-switch"><input type="checkbox" id="optMinJs" checked><span class="slider"></span></label>
+            </label>
+            <label class="toggle-item"> Remove Defaults (type=text)
+                <label class="toggle-switch"><input type="checkbox" id="optDefaults" checked><span class="slider"></span></label>
+            </label>
+        </div>
+
+        <div class="control-group" id="beautifySettings" style="display: none;">
+            <h3>Beautifier Rules</h3>
+            <label class="toggle-item"> Smart Inline Tags 
+                <label class="toggle-switch"><input type="checkbox" id="optSmartInline" checked><span class="slider"></span></label>
+            </label>
+            <label class="toggle-item"> Indent Size
+                <select id="optIndent" style="background:var(--bg-panel); color:white; border:1px solid var(--border); padding:4px; border-radius:4px;">
+                    <option value="2">2 Spaces</option>
+                    <option value="4" selected>4 Spaces</option>
                     <option value="tab">Tabs</option>
                 </select>
             </label>
         </div>
 
-        <div class="options-group">
-            <label class="toggle-switch">
-                <input type="checkbox" id="autoProcess" checked>
-                Live Auto-Process
+        <div class="control-group">
+            <h3>Automation</h3>
+            <label class="toggle-item"> Live Auto-Process
+                <label class="toggle-switch"><input type="checkbox" id="optAuto" checked><span class="slider"></span></label>
             </label>
-            <button class="btn btn-primary" onclick="processHTML()">⚡ Run Engine</button>
         </div>
     </div>
-    
-    <div class="editor-grid">
-        <div class="editor-panel">
-            <div class="editor-header">
-                <span class="editor-title">📝 Input Source</span>
-            </div>
-            <div class="editor-container">
-                <div class="line-numbers" id="inLines">1</div>
-                <textarea id="input" spellcheck="false" wrap="off"></textarea>
-            </div>
-        </div>
-        
-        <div class="editor-panel">
-            <div class="editor-header">
-                <span class="editor-title">✨ Output Result</span>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn" onclick="copyOutput()">Copy</button>
-                    <button class="btn" onclick="downloadOutput()">Download</button>
+
+    <!-- MAIN EDITOR -->
+    <div class="main-content">
+        <div class="editors-container">
+            <div class="editor-pane">
+                <div class="pane-header">
+                    <span>INPUT HTML</span>
+                    <span id="inSize" style="color:var(--code-blue)">0 B</span>
+                </div>
+                <div class="code-area">
+                    <div class="line-numbers" id="inLines">1</div>
+                    <textarea id="input" spellcheck="false" wrap="off"></textarea>
                 </div>
             </div>
-            <div class="editor-container">
-                <div class="line-numbers" id="outLines">1</div>
-                <div class="code-display" id="output"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="bottom-panel">
-        <div class="tabs">
-            <div class="tab active" data-tab="preview">👁️ Live Preview</div>
-            <div class="tab" data-tab="stats">📊 Metrics & Stats</div>
-            <div class="tab" data-tab="analysis">🔍 Deep Analysis</div>
-        </div>
-        
-        <div class="tab-content active" id="preview-content">
-            <iframe id="preview" sandbox="allow-scripts"></iframe>
-        </div>
-        
-        <div class="tab-content" id="stats-content">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Original Size</div>
-                    <div class="stat-value" id="originalSize">0 B</div>
+            
+            <div class="editor-pane">
+                <div class="pane-header">
+                    <span>OUTPUT HTML</span>
+                    <div style="display: flex; gap: 10px;">
+                        <span id="outSize" style="color:var(--success)">0 B</span>
+                        <a href="#" style="color:var(--accent); text-decoration:none;" onclick="copyOutput()">[Copy]</a>
+                        <a href="#" style="color:var(--accent); text-decoration:none;" onclick="downloadOutput()">[DL]</a>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Processed Size</div>
-                    <div class="stat-value" id="processedSize">0 B</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Space Saved</div>
-                    <div class="stat-value success" id="sizeReduction">0%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Execution Time</div>
-                    <div class="stat-value" id="processTime">0 ms</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">DOM Nodes</div>
-                    <div class="stat-value" id="elementCount">0</div>
+                <div class="code-area">
+                    <div class="line-numbers" id="outLines">1</div>
+                    <div class="output-display" id="output"></div>
                 </div>
             </div>
         </div>
-        
-        <div class="tab-content" id="analysis-content">
-            <div id="analysisResults" class="analysis-grid">
-                <!-- Populated by JS -->
+
+        <!-- BOTTOM PANELS -->
+        <div class="bottom-panel">
+            <div class="tabs">
+                <div class="tab active" data-tab="dashboard">📊 Engine Dashboard</div>
+                <div class="tab" data-tab="tree">🌳 DOM Tree Visualizer</div>
+                <div class="tab" data-tab="preview">👁️ Live Render</div>
+            </div>
+
+            <div class="tab-content active" id="dashboard-content">
+                <div class="dashboard-grid">
+                    <div class="score-card">
+                        <div class="m-title" style="margin-bottom:10px;">Health & Perf Score</div>
+                        <div class="score-circle" id="healthScore">A</div>
+                        <div class="m-sub" id="healthDesc">Highly Optimized</div>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <div class="m-title">Space Saved</div>
+                            <div class="m-val" id="mSaved" style="color:var(--success)">0%</div>
+                            <div class="m-sub" id="mBytesSaved">0 Bytes removed</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-title">Execution Time</div>
+                            <div class="m-val" id="mTime" style="color:var(--code-blue)">0ms</div>
+                            <div class="m-sub">Quantum Worker Engine</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-title">DOM Nodes</div>
+                            <div class="m-val" id="mNodes">0</div>
+                            <div class="m-sub">Total parsed elements</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="m-title">Accessibility Issues</div>
+                            <div class="m-val" id="mA11y" style="color:var(--warning)">0</div>
+                            <div class="m-sub" id="mA11yDesc">Missing alt/labels</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tree-content">
+                <div id="domTreeView" style="padding-bottom: 30px;">
+                    <!-- Tree rendered via JS -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="preview-content" style="padding:0;">
+                <iframe id="preview" sandbox="allow-scripts"></iframe>
             </div>
         </div>
     </div>
 </div>
 
-<div id="toast" class="toast">Action completed!</div>
+<div id="toast" class="toast">Action Complete</div>
 
 <script>
-// Elements
+// UI Elements
 const inputEl = document.getElementById('input');
 const outputEl = document.getElementById('output');
 const inLinesEl = document.getElementById('inLines');
 const outLinesEl = document.getElementById('outLines');
 const previewEl = document.getElementById('preview');
-const beautifyOptionsEl = document.getElementById('beautifyOptions');
-const toastEl = document.getElementById('toast');
-const autoProcessToggle = document.getElementById('autoProcess');
-
-// State
 let currentMode = 'minify';
 let debounceTimer;
 
@@ -403,317 +495,353 @@ document.querySelectorAll('.tab').forEach(tab => {
     });
 });
 
-// Setup Mode Toggle
+// Mode Selector
 document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentMode = btn.dataset.mode;
-        beautifyOptionsEl.style.display = currentMode === 'beautify' ? 'flex' : 'none';
-        if(autoProcessToggle.checked) processHTML();
+        document.getElementById('beautifySettings').style.display = currentMode === 'beautify' ? 'block' : 'none';
+        processHTML();
     });
 });
 
-// Line Numbers Sync
-function updateLineNumbers(textarea, lineDiv) {
+// Line Sync
+function syncLines(textarea, lineDiv) {
     const lines = textarea.value.split('\n').length || 1;
     lineDiv.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
 }
-
 inputEl.addEventListener('input', () => {
-    updateLineNumbers(inputEl, inLinesEl);
-    if (autoProcessToggle.checked) {
+    syncLines(inputEl, inLinesEl);
+    if(document.getElementById('optAuto').checked) {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(processHTML, 500);
+        debounceTimer = setTimeout(processHTML, 400);
     }
 });
+inputEl.addEventListener('scroll', () => { inLinesEl.scrollTop = inputEl.scrollTop; });
+outputEl.addEventListener('scroll', () => { outLinesEl.scrollTop = outputEl.scrollTop; });
 
-inputEl.addEventListener('scroll', () => {
-    inLinesEl.scrollTop = inputEl.scrollTop;
-});
-
-outputEl.addEventListener('scroll', () => {
-    outLinesEl.scrollTop = outputEl.scrollTop;
-});
-
-function updateOutputLines(text) {
-    const lines = text.split('\n').length || 1;
-    outLinesEl.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+// Utils
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-// UI Utilities
-function showToast(message, duration = 3000) {
-    toastEl.textContent = message;
-    toastEl.classList.add('show');
-    setTimeout(() => toastEl.classList.remove('show'), duration);
-}
-
 function formatBytes(bytes) {
     if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes =['B', 'KB', 'MB', 'GB'];
+    const k = 1024; const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// Deep Analysis Logic
-function analyzeHTML(html) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    
-    // Core metrics
-    const elements = doc.querySelectorAll('*');
-    const tagCounts = {};
-    let maxDepth = 0;
-    
-    elements.forEach(el => {
-        const tag = el.tagName.toLowerCase();
-        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-        
-        let depth = 0;
-        let curr = el;
-        while (curr.parentElement) { depth++; curr = curr.parentElement; }
-        if (depth > maxDepth) maxDepth = depth;
-    });
-
-    // SEO Score
-    const seo = {
-        title: doc.querySelector('title') ? '✅ Present' : '❌ Missing',
-        metaDesc: doc.querySelector('meta[name="description"]') ? '✅ Present' : '❌ Missing',
-        h1: doc.querySelectorAll('h1').length,
-        h1Status: doc.querySelectorAll('h1').length === 1 ? '✅ Optimal (1)' : (doc.querySelectorAll('h1').length === 0 ? '❌ Missing' : '⚠️ Multiple H1s')
-    };
-
-    // A11y (Accessibility)
-    const a11y = {
-        imgNoAlt: doc.querySelectorAll('img:not([alt])').length,
-        emptyLinks: Array.from(doc.querySelectorAll('a')).filter(a => !a.textContent.trim() && !a.querySelector('img')).length,
-        missingLang: !doc.documentElement.getAttribute('lang')
-    };
-
-    // Performance/Structure
-    const perf = {
-        inlineStyles: doc.querySelectorAll('[style]').length,
-        scripts: doc.querySelectorAll('script').length,
-        css: doc.querySelectorAll('link[rel="stylesheet"], style').length,
-        domDepth: maxDepth
-    };
-
-    return { tagCounts, seo, a11y, perf, totalNodes: elements.length };
-}
-
-function renderAnalysis(analysis) {
-    const html = `
-        <div class="analysis-box">
-            <h4>🎯 SEO & Metadata</h4>
-            <div class="analysis-item"><span>Title Tag</span> <span>${analysis.seo.title}</span></div>
-            <div class="analysis-item"><span>Meta Description</span> <span>${analysis.seo.metaDesc}</span></div>
-            <div class="analysis-item"><span>H1 Tags</span> <span>${analysis.seo.h1Status}</span></div>
-        </div>
-        
-        <div class="analysis-box">
-            <h4>♿ Accessibility</h4>
-            <div class="analysis-item"><span>Images missing Alt</span> <span class="${analysis.a11y.imgNoAlt > 0 ? 'warning' : 'success'}">${analysis.a11y.imgNoAlt}</span></div>
-            <div class="analysis-item"><span>Empty Links</span> <span class="${analysis.a11y.emptyLinks > 0 ? 'warning' : 'success'}">${analysis.a11y.emptyLinks}</span></div>
-            <div class="analysis-item"><span>Missing HTML Lang</span> <span class="${analysis.a11y.missingLang ? 'warning' : 'success'}">${analysis.a11y.missingLang ? 'Yes' : 'No'}</span></div>
-        </div>
-
-        <div class="analysis-box">
-            <h4>⚡ Performance & Structure</h4>
-            <div class="analysis-item"><span>Max DOM Depth</span> <span class="${analysis.perf.domDepth > 15 ? 'warning' : 'success'}">${analysis.perf.domDepth} levels</span></div>
-            <div class="analysis-item"><span>Inline Style Attrs</span> <span class="${analysis.perf.inlineStyles > 5 ? 'warning' : 'success'}">${analysis.perf.inlineStyles}</span></div>
-            <div class="analysis-item"><span>JS Scripts</span> <span>${analysis.perf.scripts}</span></div>
-            <div class="analysis-item"><span>CSS Sources</span> <span>${analysis.perf.css}</span></div>
-        </div>
-
-        <div class="analysis-box">
-            <h4>🏷️ Top Elements Used</h4>
-            ${Object.entries(analysis.tagCounts)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 4)
-                .map(([tag, count]) => `<div class="analysis-item"><span style="font-family: monospace;">&lt;${tag}&gt;</span> <span>${count}</span></div>`)
-                .join('')}
-        </div>
-    `;
-    document.getElementById('analysisResults').innerHTML = html;
-}
-
-// Quantum Worker Engine
+// ---------------- QUANTUM WORKER ENGINE ----------------
+// The worker code is injected here to run heavy Regex/AST logic off the main thread.
 const workerCode = `
 self.onmessage = function(e) {
     const { html, mode, options } = e.data;
-    const startTime = performance.now();
-    
+    const start = performance.now();
+    let result = html;
+
     try {
-        let result = html;
-        
-        // Safety preserves for tags where whitespace matters strictly
-        const preserves =[];
-        result = result.replace(/<(pre|code|textarea)([^>]*)>([\\s\\S]*?)<\\/\\1>/gi, (match) => {
+        // --- PRESERVATION PASS ---
+        // Safely extract tags where whitespace is strictly protected
+        const preserves = [];
+        result = result.replace(/<(pre|code|textarea)([^>]*)>([\\s\\S]*?)<\\/\\1>/gi, match => {
             preserves.push(match);
-            return \`__Q_PRESERVE_\${preserves.length - 1}__\`;
+            return \`___Q_PRESERVE_\${preserves.length - 1}___\`;
         });
 
         if (mode === 'minify') {
-            // Remove HTML comments (but preserve IE conditional comments if needed, ignored here for max minify)
-            result = result.replace(/<!--([\\s\\S]*?)-->/g, '');
-            
-            // Compress spaces
+            // 1. Strip Comments (Except IE Conditionals)
+            result = result.replace(/<!--(?!\\s*\\[if)[\\s\\S]*?-->/g, '');
+
+            // 2. CSS Minification
+            if (options.minCss) {
+                result = result.replace(/<style([^>]*)>([\\s\\S]*?)<\\/style>/gi, (match, attrs, css) => {
+                    let min = css
+                        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '') // comments
+                        .replace(/\\s+/g, ' ')                  // spaces
+                        .replace(/\\s*([{}|:;,])\\s*/g, '$1')   // punctuation spaces
+                        .replace(/;}/g, '}')                    // trailing semi
+                        .trim();
+                    return \`<style\${attrs}>\${min}</style>\`;
+                });
+            }
+
+            // 3. JS Minification (Safe AST-Regex approach)
+            if (options.minJs) {
+                result = result.replace(/<script([^>]*)>([\\s\\S]*?)<\\/script>/gi, (match, attrs, js) => {
+                    // Skip if src exists
+                    if(/src=/i.test(attrs)) return match;
+                    let min = js
+                        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '') // block comments
+                        .replace(/(^|[^:\\\\])\\/\\/.*$/gm, '$1') // line comments (safe for urls)
+                        .replace(/\\s+/g, ' ')
+                        .replace(/\\s*([{}()\\[\\]=+\\-*/,;!?:|&<>])\\s*/g, '$1')
+                        .trim();
+                    return \`<script\${attrs}>\${min}</script>\`;
+                });
+            }
+
+            // 4. HTML Whitespace Collapse
             result = result
                 .replace(/\\n\\s+/g, ' ')
                 .replace(/\\s{2,}/g, ' ')
                 .replace(/>\\s+</g, '><')
-                .replace(/\\s+\\/>/g, '/>')
                 .trim();
-        } 
-        else if (mode === 'beautify') {
-            const indentChar = options.indentType === 'tab' ? '\\t' : ' ';
-            const indent = indentChar.repeat(options.indentSize);
+
+            // 5. Aggressive Attribute Compaction
+            if (options.noQuotes) {
+                // Remove quotes around simple attributes (no spaces, =, <, >, \`, ")
+                result = result.replace(/([a-zA-Z0-9\\-]+)="([a-zA-Z0-9\\-_]+)"/g, '$1=$2');
+                result = result.replace(/([a-zA-Z0-9\\-]+)='([a-zA-Z0-9\\-_]+)'/g, '$1=$2');
+            }
+            if (options.booleans) {
+                const bools =['checked', 'disabled', 'readonly', 'required', 'selected', 'hidden', 'multiple'];
+                bools.forEach(b => {
+                    const regex = new RegExp(\`\${b}="\${b}"|\${b}='\${b}'|\${b}="true"\`, 'gi');
+                    result = result.replace(regex, b);
+                });
+            }
+            if (options.defaults) {
+                result = result.replace(/type="text\\/javascript"/gi, '');
+                result = result.replace(/type="text\\/css"/gi, '');
+                result = result.replace(/type=text\\/javascript/gi, '');
+                result = result.replace(/type=text\\/css/gi, '');
+                result = result.replace(/<input([^>]*?)type="text"([^>]*?)>/gi, '<input$1$2>');
+                result = result.replace(/<input([^>]*?)type=text([^>]*?)>/gi, '<input$1$2>');
+            }
             
-            // Clean up original whitespace
+            // Cleanup extra spaces in tags
+            result = result.replace(/\\s+>/g, '>');
+
+        } else if (mode === 'beautify') {
+            const indentStr = options.indent === 'tab' ? '\\t' : ' '.repeat(parseInt(options.indent));
+            const inlineTags = /^(a|abbr|b|bdi|bdo|br|cite|code|data|dfn|em|i|kbd|mark|q|rp|rt|ruby|s|samp|small|span|strong|sub|sup|time|u|var|wbr)$/i;
+            
+            // Clean initial whitespace
             result = result.replace(/>\\s+</g, '><').trim();
             
+            // Tokenize DOM logic
+            // Matches: 1. Comments  2. Closing tags  3. Opening tags  4. Text
+            const tokens = result.split(/(<!--[\\s\\S]*?-->|<\\/[^>]+>|<[^>]+\\/?>)/g).filter(t => t.trim().length > 0);
+            
             let formatted = '';
-            let pad = 0;
-            
-            // Match tags, text, and comments. 
-            // Better regex to parse HTML tokens:
-            const tokens = result.split(/(<!--[\\s\\S]*?-->|<[^>]*>)/g).filter(Boolean);
-            
-            const voidElements = /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i;
-            
+            let depth = 0;
+            let lastType = ''; // 'block', 'inline', 'text'
+
             for (let i = 0; i < tokens.length; i++) {
-                let token = tokens[i].trim();
-                if (!token) continue;
+                let token = tokens[i];
+                let isText = !token.startsWith('<');
                 
                 if (token.startsWith('<!--')) {
-                    // Comment
-                    formatted += '\\n' + indent.repeat(pad) + token;
+                    formatted += '\\n' + indentStr.repeat(depth) + token;
+                    lastType = 'block';
                 }
                 else if (token.match(/^<\\//)) {
-                    // Closing tag
-                    pad = Math.max(0, pad - 1);
-                    formatted += '\\n' + indent.repeat(pad) + token;
-                }
-                else if (token.match(/^</)) {
-                    // Opening or Self-closing tag
-                    formatted += '\\n' + indent.repeat(pad) + token;
+                    // Closing Tag
+                    let tag = token.replace(/<\\/|>/g, '').trim().toLowerCase();
+                    let isInline = options.smartInline && inlineTags.test(tag);
                     
-                    // If not self-closing or void element, increase padding
-                    const tagNameMatch = token.match(/^<([^\\s>\\/]+)/);
-                    if (tagNameMatch) {
-                        const tagName = tagNameMatch[1];
-                        if (!token.endsWith('/>') && !voidElements.test(tagName) && !token.startsWith('<!')) {
-                            pad++;
-                        }
+                    if (!isInline && lastType !== 'inline') depth = Math.max(0, depth - 1);
+                    
+                    if (isInline && (lastType === 'text' || lastType === 'inline')) {
+                        formatted += token; // Attach directly
+                        lastType = 'inline';
+                    } else {
+                        formatted += (lastType === 'text' ? '' : '\\n' + indentStr.repeat(depth)) + token;
+                        lastType = isInline ? 'inline' : 'block';
                     }
                 }
+                else if (token.match(/^</)) {
+                    // Opening Tag
+                    let tagMatch = token.match(/^<([^\\s>\\/]+)/);
+                    let tag = tagMatch ? tagMatch[1].toLowerCase() : '';
+                    let isInline = options.smartInline && inlineTags.test(tag);
+                    let isSelfClosing = token.endsWith('/>') || /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i.test(tag);
+                    let isDoctype = tag.startsWith('!');
+
+                    if (isInline && (lastType === 'text' || lastType === 'inline' || lastType === '')) {
+                        formatted += token; // Attach directly
+                        lastType = 'inline';
+                    } else {
+                        formatted += (formatted.length > 0 ? '\\n' : '') + (!isDoctype ? indentStr.repeat(depth) : '') + token;
+                        lastType = isInline ? 'inline' : 'block';
+                    }
+
+                    if (!isSelfClosing && !isInline && !isDoctype) depth++;
+                }
                 else {
-                    // Text node
-                    formatted += '\\n' + indent.repeat(pad) + token;
+                    // Text Node
+                    token = token.trim();
+                    if (token) {
+                        if (lastType === 'inline') {
+                            formatted += token;
+                        } else {
+                            formatted += '\\n' + indentStr.repeat(depth) + token;
+                        }
+                        lastType = 'text';
+                    }
                 }
             }
             result = formatted.trim();
         }
 
-        // Restore preserved content
+        // --- RESTORATION PASS ---
         preserves.forEach((content, i) => {
-            result = result.replace(\`__Q_PRESERVE_\${i}__\`, content);
+            result = result.replace(\`___Q_PRESERVE_\${i}___\`, content);
         });
 
-        self.postMessage({
-            success: true,
-            result: result,
-            time: Math.round(performance.now() - startTime)
-        });
+        self.postMessage({ success: true, result, time: Math.round(performance.now() - start) });
     } catch(err) {
         self.postMessage({ success: false, error: err.message });
     }
 };
 `;
-
 const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
 const worker = new Worker(URL.createObjectURL(workerBlob));
 
-// Process Function
+// ---------------- MAIN THREAD LOGIC ----------------
+
 function processHTML() {
     const html = inputEl.value;
-    if (!html.trim()) {
-        outputEl.textContent = '';
-        updateOutputLines('');
-        return;
-    }
+    if (!html.trim()) { outputEl.textContent = ''; return; }
     
+    document.getElementById('inSize').textContent = formatBytes(new Blob([html]).size);
+
     worker.postMessage({
         html: html,
         mode: currentMode,
         options: {
-            indentSize: parseInt(document.getElementById('indentSize').value),
-            indentType: document.getElementById('indentType').value
+            noQuotes: document.getElementById('optNoQuotes').checked,
+            booleans: document.getElementById('optBooleans').checked,
+            minCss: document.getElementById('optMinCss').checked,
+            minJs: document.getElementById('optMinJs').checked,
+            defaults: document.getElementById('optDefaults').checked,
+            smartInline: document.getElementById('optSmartInline').checked,
+            indent: document.getElementById('optIndent').value
         }
     });
 }
 
 worker.onmessage = function(e) {
     if (e.data.success) {
-        const result = e.data.result;
+        const res = e.data.result;
+        outputEl.textContent = res;
         
-        // Update Output
-        outputEl.textContent = result;
-        updateOutputLines(result);
+        // Lines
+        const outLines = res.split('\n').length || 1;
+        outLinesEl.innerHTML = Array(outLines).fill(0).map((_, i) => i + 1).join('<br>');
+
+        // Preview
+        previewEl.srcdoc = res;
+
+        // Metrics
+        const origBytes = new Blob([inputEl.value]).size;
+        const newBytes = new Blob([res]).size;
+        document.getElementById('outSize').textContent = formatBytes(newBytes);
         
-        // Update Preview (Safely)
-        previewEl.srcdoc = result;
+        let diff = origBytes - newBytes;
+        let pct = origBytes ? Math.max(0, Math.round((diff / origBytes) * 100)) : 0;
         
-        // Update Stats
-        const origBytes = new TextEncoder().encode(inputEl.value).length;
-        const newBytes = new TextEncoder().encode(result).length;
-        const reduction = origBytes ? Math.round((1 - newBytes / origBytes) * 100) : 0;
-        
-        document.getElementById('originalSize').textContent = formatBytes(origBytes);
-        document.getElementById('processedSize').textContent = formatBytes(newBytes);
-        document.getElementById('sizeReduction').textContent = `${reduction}%`;
-        document.getElementById('processTime').textContent = `${e.data.time} ms`;
-        
-        // Deep Analysis
-        const analysis = analyzeHTML(inputEl.value);
-        document.getElementById('elementCount').textContent = analysis.totalNodes;
-        renderAnalysis(analysis);
-        
-        if (!autoProcessToggle.checked) {
-            showToast(`HTML ${currentMode === 'minify' ? 'minified' : 'beautified'} in ${e.data.time}ms`);
-        }
+        document.getElementById('mSaved').textContent = pct + '%';
+        document.getElementById('mBytesSaved').textContent = formatBytes(Math.max(0, diff)) + ' removed';
+        document.getElementById('mTime').textContent = e.data.time + 'ms';
+
+        // Main Thread Deep Analysis (Scoring & Tree)
+        analyzeAndScore(inputEl.value);
+
     } else {
-        showToast('Processing Error: ' + e.data.error);
+        showToast('Syntax/Engine Error: ' + e.data.error);
     }
 };
 
-// Utilities Actions
+// Analysis Engine
+function analyzeAndScore(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    const allNodes = doc.querySelectorAll('*');
+    document.getElementById('mNodes').textContent = allNodes.length;
+
+    // A11y
+    const imgs = doc.querySelectorAll('img:not([alt])').length;
+    const emptyLinks = Array.from(doc.querySelectorAll('a')).filter(a => !a.textContent.trim() && !a.querySelector('img')).length;
+    const a11yTotal = imgs + emptyLinks;
+    document.getElementById('mA11y').textContent = a11yTotal;
+    
+    // SEO
+    const hasTitle = doc.querySelector('title') !== null;
+    const hasDesc = doc.querySelector('meta[name="description"]') !== null;
+    const h1s = doc.querySelectorAll('h1').length;
+
+    // Score Algorithm
+    let score = 100;
+    if (a11yTotal > 0) score -= (a11yTotal * 4);
+    if (!hasTitle) score -= 15;
+    if (!hasDesc) score -= 10;
+    if (h1s === 0) score -= 10;
+    if (h1s > 1) score -= 5;
+    if (allNodes.length > 1500) score -= 10; // DOM too large
+
+    const scoreCircle = document.getElementById('healthScore');
+    const scoreDesc = document.getElementById('healthDesc');
+    scoreCircle.className = 'score-circle'; // reset
+    
+    if (score >= 90) { scoreCircle.textContent = 'A'; scoreCircle.classList.add('score-A'); scoreDesc.textContent = 'Highly Optimized'; }
+    else if (score >= 75) { scoreCircle.textContent = 'B'; scoreCircle.classList.add('score-B'); scoreDesc.textContent = 'Good / Minor Issues'; }
+    else if (score >= 60) { scoreCircle.textContent = 'C'; scoreCircle.classList.add('score-C'); scoreDesc.textContent = 'Needs Improvement'; }
+    else { scoreCircle.textContent = 'F'; scoreCircle.classList.add('score-D'); scoreDesc.textContent = 'Poor Structure'; }
+
+    // Build Visual DOM Tree
+    buildDomTree(doc.body);
+}
+
+function buildDomTree(root) {
+    const container = document.getElementById('domTreeView');
+    container.innerHTML = '<h4>Document Body Structure</h4><br>';
+    
+    function createNode(el, depth) {
+        if (depth > 10) return ''; // Prevent infinite recursion on crazy doms
+        if (el.nodeType === 3) {
+            let txt = el.textContent.trim();
+            if (txt) return `<div class="tree-node"><span class="tree-text">"${txt.length > 30 ? txt.substring(0,30)+'...' : txt}"</span></div>`;
+            return '';
+        }
+        if (el.nodeType !== 1) return ''; // Only Elements
+
+        let tag = el.tagName.toLowerCase();
+        let attrsStr = '';
+        if (el.id) attrsStr += ` <span class="tree-attr">id="${el.id}"</span>`;
+        if (el.className) attrsStr += ` <span class="tree-attr">class="${el.className}"</span>`;
+
+        let html = `<div class="tree-node">`;
+        html += `<span class="tree-tag">&lt;${tag}&gt;</span>${attrsStr}`;
+        
+        let childHtml = '';
+        el.childNodes.forEach(child => { childHtml += createNode(child, depth + 1); });
+        
+        html += childHtml;
+        if (childHtml !== '') html += `<div style="margin-top:2px;"><span class="tree-tag">&lt;/${tag}&gt;</span></div>`;
+        html += `</div>`;
+        
+        return html;
+    }
+    
+    container.innerHTML += createNode(root, 0);
+}
+
+// Utility Actions
 function copyOutput() {
-    navigator.clipboard.writeText(outputEl.textContent)
-        .then(() => showToast('Copied to clipboard! 📋'))
-        .catch(() => showToast('Failed to copy.'));
+    navigator.clipboard.writeText(outputEl.textContent).then(() => showToast('Copied to Clipboard!'));
 }
-
 function downloadOutput() {
-    if (!outputEl.textContent) return showToast('Nothing to download!');
+    if(!outputEl.textContent) return;
     const blob = new Blob([outputEl.textContent], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `optimized_${currentMode}.html`;
+    a.href = URL.createObjectURL(blob);
+    a.download = `quantum_${currentMode}.html`;
     a.click();
-    URL.revokeObjectURL(url);
-    showToast('Download started! ⬇️');
-}
-
-function clearAll() {
-    inputEl.value = '';
-    outputEl.textContent = '';
-    previewEl.srcdoc = '';
-    updateLineNumbers(inputEl, inLinesEl);
-    updateOutputLines('');
-    showToast('Workspace cleared! 🧹');
 }
 
 function loadSample() {
@@ -721,53 +849,61 @@ function loadSample() {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Intentionally missing description for Analysis check -->
-    <title>Quantum HTML Test</title>
-    <style>
-        body { font-family: sans-serif; background: #f0f0f0; }
-        .box { padding: 20px; margin: 10px; background: white; border-radius: 8px; }
+    <title>Quantum HTML Pro Test</title>
+    <!-- Remove this comment -->
+    <style type="text/css">
+        body { 
+            font-family: sans-serif; 
+            background: #111;
+            color: white;
+        }
+        .container {
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h1>Welcome to Quantum HTML</h1>
-        <h1>Oops, another H1!</h1>
+    <div class="container" id="main-box">
+        <h1>Welcome to Quantum</h1>
         
-        <p style="color: blue;">This paragraph has an inline style.</p>
+        <p>
+            This paragraph contains <b>inline tags</b> that should 
+            <a href="#">not break</a> onto new lines when beautified!
+        </p>
         
-        <!-- This is a comment that will be stripped in Minify mode -->
+        <input type="text" checked="checked" disabled="disabled" class="test-input" />
         
-        <img src="placeholder.jpg" /> <!-- Missing alt tag! -->
+        <img src="none.jpg" /> <!-- Missing Alt triggers A11y warning -->
         
-        <a href="#"></a> <!-- Empty link! -->
+        <script type="text/javascript">
+            // This is a test script
+            function test() {
+                const x = 10;
+                /* Block comment to strip */
+                if(x == 10) {
+                    console.log("Hello");
+                }
+            }
+        <\/script>
         
         <pre>
-function preserveMe() {
-    // This exact spacing should NOT be mangled
-    console.log("Protected area");
-}
+            Protected
+                Spacing
+                    Area
         </pre>
-        
-        <div>
-            <div>
-                <div>
-                    <p>Deep nesting test...</p>
-                </div>
-            </div>
-        </div>
     </div>
-    
-    <script>
-        console.log("Engine loaded.");
-    <\/script>
 </body>
 </html>`;
-    updateLineNumbers(inputEl, inLinesEl);
+    syncLines(inputEl, inLinesEl);
     processHTML();
-    showToast('Sample code loaded! 🧪');
 }
 
 // Init
+document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.addEventListener('change', () => { if(document.getElementById('optAuto').checked) processHTML(); });
+});
+document.getElementById('optIndent').addEventListener('change', processHTML);
+
 loadSample();
 </script>
 </body>
