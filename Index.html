@@ -1,202 +1,774 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum HTML Optimizer</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            --secondary-gradient: linear-gradient(to right, #ff6a00, #ee0979);
-        }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background: linear-gradient(160deg, #f4f4f4 0%, #e9e9e9 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .glass-morphism {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(15px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.125);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-        .code-editor {
-            font-family: 'Fira Code', 'Cascadia Code', monospace;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum HTML Optimizer X Ultimate</title>
+
+<style>
+:root {
+    --bg-dark: #070a13;
+    --bg-panel: #111827;
+    --bg-editor: #0d121f;
+    --accent: #3d6bff;
+    --accent-glow: rgba(61, 107, 255, 0.4);
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --code-color: #4ade80;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --border: #1e293b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    padding: 20px;
+    background: rgba(17, 24, 39, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    overflow-y: auto;
+}
+
+.controls-bar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    background: var(--bg-panel);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.modes { display: flex; background: var(--bg-dark); border-radius: 8px; padding: 4px; }
+
+.mode-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.mode-btn.active { background: var(--accent); color: white; box-shadow: 0 0 10px var(--accent-glow); }
+
+.options-group { display: flex; align-items: center; gap: 15px; }
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+
+.editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 400px; }
+
+@media (max-width: 900px) { .editor-grid { grid-template-columns: 1fr; } }
+
+.editor-panel {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--border);
+}
+
+.editor-title { font-size: 14px; font-weight: 600; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
+
+.editor-container {
+    display: flex;
+    flex: 1;
+    background: var(--bg-editor);
+    position: relative;
+}
+
+.line-numbers {
+    padding: 16px 8px;
+    background: rgba(0,0,0,0.3);
+    color: #475569;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 14px;
+    text-align: right;
+    user-select: none;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+    min-width: 45px;
+}
+
+textarea, .code-display {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: var(--text-main);
+    padding: 16px;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    border: none;
+    resize: none;
+    outline: none;
+    white-space: pre;
+    overflow: auto;
+}
+
+textarea { color: #93c5fd; }
+.code-display { color: var(--code-color); }
+
+.btn {
+    padding: 6px 12px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: 0.2s;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btn:hover { background: rgba(255,255,255,0.05); }
+
+.btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+.btn-primary:hover { background: #2563eb; }
+
+.bottom-panel {
+    background: var(--bg-panel);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs { display: flex; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); border-radius: 12px 12px 0 0; }
+
+.tab {
+    padding: 12px 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.tab:hover { color: var(--text-main); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(61, 107, 255, 0.05); }
+
+.tab-content { display: none; padding: 20px; }
+.tab-content.active { display: block; }
+
+iframe { width: 100%; height: 400px; border: 0; background: white; border-radius: 8px; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+.stat-card {
+    background: var(--bg-editor);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-value { font-size: 24px; font-weight: 700; margin-top: 8px; color: var(--text-main); }
+.success { color: var(--success); }
+.warning { color: var(--warning); }
+
+.analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media(max-width: 768px) { .analysis-grid { grid-template-columns: 1fr; } }
+
+.analysis-box { background: var(--bg-editor); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.analysis-box h4 { margin-bottom: 12px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+.analysis-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.analysis-item:last-child { border-bottom: none; }
+
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #1e293b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transform: translateX(150%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.toast.show { transform: translateX(0); }
+
+select, input[type="number"] {
+    background: var(--bg-editor);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: none;
+}
+</select>
+</style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-    <div class="container mx-auto px-4 py-8 flex-grow">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-600 mb-4">
-                Quantum HTML Optimizer
-            </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Advanced HTML Compression with Intelligent Parsing and Preservation
-            </p>
-        </header>
 
-        <main class="max-w-4xl mx-auto">
-            <div class="glass-morphism p-6 shadow-2xl">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="inputHTML" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Input HTML
-                        </label>
-                        <textarea 
-                            id="inputHTML" 
-                            class="code-editor w-full h-64 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                            placeholder="Paste your HTML code here..."
-                        ></textarea>
-                    </div>
-                    <div>
-                        <label for="outputHTML" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Optimized Output
-                        </label>
-                        <pre 
-                            id="outputHTML" 
-                            class="code-editor w-full h-64 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 overflow-auto"
-                        ></pre>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center mt-6">
-                    <div class="flex space-x-4">
-                        <button 
-                            id="compactBtn" 
-                            class="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50"
-                        >
-                            Optimize HTML
-                        </button>
-                        <button 
-                            id="copyBtn" 
-                            class="px-6 py-3 bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold rounded-lg hover:from-green-500 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-                        >
-                            Copy Output
-                        </button>
-                    </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        Compression Efficiency: <span id="compressionRate">0%</span>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <section class="mt-12 max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
-                Advanced Compression Techniques
-            </h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3 text-blue-600">Intelligent Parsing</h3>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        Context-aware HTML parsing that preserves critical whitespace and structure.
-                    </p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3 text-green-600">Script Preservation</h3>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        Advanced algorithm to maintain script and style element integrity.
-                    </p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3 text-purple-600">Performance Optimization</h3>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        Minimal overhead compression with maximum code readability.
-                    </p>
-                </div>
-            </div>
-        </section>
+<body>
+<header>
+    <div>
+        <h1>Quantum HTML Optimizer X Ultimate</h1>
+        <div class="subtitle">Next-Generation HTML Engine • Minify, Beautify, Analyze</div>
     </div>
+    <div style="display: flex; gap: 10px;">
+        <button class="btn" onclick="loadSample()">Load Sample</button>
+        <button class="btn" onclick="clearAll()">Clear Workspace</button>
+    </div>
+</header>
 
-    <footer class="bg-gray-200 dark:bg-gray-800 py-6 mt-12">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-600 dark:text-gray-400">
-                © 2025 Quantum Web Technologies. All rights reserved.
-            </p>
+<div class="container">
+    <div class="controls-bar">
+        <div class="modes">
+            <button class="mode-btn active" data-mode="minify">Minify</button>
+            <button class="mode-btn" data-mode="beautify">Beautify</button>
         </div>
-    </footer>
-
-    <script>
-        // Advanced HTML Compaction Algorithm
-        function compactHTML() {
-            const inputHTML = document.getElementById("inputHTML").value.trim();
-            const outputElement = document.getElementById("outputHTML");
-            const compressionRateElement = document.getElementById("compressionRate");
-
-            if (!inputHTML) {
-                outputElement.textContent = "Error: No input provided!";
-                compressionRateElement.textContent = "0%";
-                return;
-            }
-
-            // Preserve original DOCTYPE
-            const doctypeMatch = inputHTML.match(/^\s*<!DOCTYPE\s+[^>]+>/i);
-            const doctype = doctypeMatch ? doctypeMatch[0] : '<!DOCTYPE html>';
-            let workingHTML = inputHTML.replace(/^\s*<!DOCTYPE\s+[^>]+>/i, '');
-
-            // Advanced preservation regex for complex elements
-            const preserveRegex = /(<script\b[\s\S]*?<\/script>)|(<style\b[\s\S]*?<\/style>)|(<textarea\b[\s\S]*?<\/textarea>)|(<pre\b[\s\S]*?<\/pre>)|(<code\b[\s\S]*?<\/code>)/gi;
-            const parts = workingHTML.split(preserveRegex);
-            let compacted = [];
-
-            for (let part of parts) {
-                if (!part) continue;
-                if (preserveRegex.test(part)) {
-                    // Preserve scripts, styles, and whitespace-sensitive elements
-                    compacted.push(part);
-                } else {
-                    // Advanced minification with contextual preservation
-                    compacted.push(
-                        part.replace(/\s+/g, ' ')
-                            .replace(/\s*([<>])\s*/g, '$1')
-                            .replace(/>\s+</g, '><')
-                            .replace(/(\w+)=([^\s>]+)/g, (match, attr, value) => 
-                                value.startsWith('"') && value.endsWith('"') ? match : `${attr}="${value}"`)
-                            .trim()
-                    );
-                }
-            }
-
-            // Final assembly with advanced compression
-            let finalHTML = doctype + compacted.join('')
-                .replace(/\s+/g, ' ')
-                .replace(/\s*([<>])\s*/g, '$1')
-                .replace(/>\s+</g, '><')
-                .trim();
-
-            // Compute compression rate
-            const originalSize = inputHTML.length;
-            const compressedSize = finalHTML.length;
-            const compressionRate = Math.round((1 - compressedSize / originalSize) * 100);
-
-            outputElement.textContent = finalHTML;
-            compressionRateElement.textContent = `${compressionRate}%`;
-        }
-
-        // Event Listeners
-        document.getElementById("compactBtn").addEventListener("click", compactHTML);
         
-        // Copy to Clipboard Functionality
-        document.getElementById("copyBtn").addEventListener("click", () => {
-            const outputHTML = document.getElementById("outputHTML");
-            navigator.clipboard.writeText(outputHTML.textContent).then(() => {
-                const copyBtn = document.getElementById("copyBtn");
-                copyBtn.textContent = "Copied!";
-                setTimeout(() => {
-                    copyBtn.textContent = "Copy Output";
-                }, 2000);
-            });
+        <div class="options-group" id="beautifyOptions" style="display:none;">
+            <label class="toggle-switch">
+                Indent:
+                <input type="number" id="indentSize" value="4" min="1" max="8" style="width: 50px;">
+            </label>
+            <label class="toggle-switch">
+                <select id="indentType">
+                    <option value="space">Spaces</option>
+                    <option value="tab">Tabs</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="options-group">
+            <label class="toggle-switch">
+                <input type="checkbox" id="autoProcess" checked>
+                Live Auto-Process
+            </label>
+            <button class="btn btn-primary" onclick="processHTML()">⚡ Run Engine</button>
+        </div>
+    </div>
+    
+    <div class="editor-grid">
+        <div class="editor-panel">
+            <div class="editor-header">
+                <span class="editor-title">📝 Input Source</span>
+            </div>
+            <div class="editor-container">
+                <div class="line-numbers" id="inLines">1</div>
+                <textarea id="input" spellcheck="false" wrap="off"></textarea>
+            </div>
+        </div>
+        
+        <div class="editor-panel">
+            <div class="editor-header">
+                <span class="editor-title">✨ Output Result</span>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn" onclick="copyOutput()">Copy</button>
+                    <button class="btn" onclick="downloadOutput()">Download</button>
+                </div>
+            </div>
+            <div class="editor-container">
+                <div class="line-numbers" id="outLines">1</div>
+                <div class="code-display" id="output"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-panel">
+        <div class="tabs">
+            <div class="tab active" data-tab="preview">👁️ Live Preview</div>
+            <div class="tab" data-tab="stats">📊 Metrics & Stats</div>
+            <div class="tab" data-tab="analysis">🔍 Deep Analysis</div>
+        </div>
+        
+        <div class="tab-content active" id="preview-content">
+            <iframe id="preview" sandbox="allow-scripts"></iframe>
+        </div>
+        
+        <div class="tab-content" id="stats-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Original Size</div>
+                    <div class="stat-value" id="originalSize">0 B</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Processed Size</div>
+                    <div class="stat-value" id="processedSize">0 B</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Space Saved</div>
+                    <div class="stat-value success" id="sizeReduction">0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Execution Time</div>
+                    <div class="stat-value" id="processTime">0 ms</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">DOM Nodes</div>
+                    <div class="stat-value" id="elementCount">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="analysis-content">
+            <div id="analysisResults" class="analysis-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast">Action completed!</div>
+
+<script>
+// Elements
+const inputEl = document.getElementById('input');
+const outputEl = document.getElementById('output');
+const inLinesEl = document.getElementById('inLines');
+const outLinesEl = document.getElementById('outLines');
+const previewEl = document.getElementById('preview');
+const beautifyOptionsEl = document.getElementById('beautifyOptions');
+const toastEl = document.getElementById('toast');
+const autoProcessToggle = document.getElementById('autoProcess');
+
+// State
+let currentMode = 'minify';
+let debounceTimer;
+
+// Setup Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
+    });
+});
+
+// Setup Mode Toggle
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMode = btn.dataset.mode;
+        beautifyOptionsEl.style.display = currentMode === 'beautify' ? 'flex' : 'none';
+        if(autoProcessToggle.checked) processHTML();
+    });
+});
+
+// Line Numbers Sync
+function updateLineNumbers(textarea, lineDiv) {
+    const lines = textarea.value.split('\n').length || 1;
+    lineDiv.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+}
+
+inputEl.addEventListener('input', () => {
+    updateLineNumbers(inputEl, inLinesEl);
+    if (autoProcessToggle.checked) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(processHTML, 500);
+    }
+});
+
+inputEl.addEventListener('scroll', () => {
+    inLinesEl.scrollTop = inputEl.scrollTop;
+});
+
+outputEl.addEventListener('scroll', () => {
+    outLinesEl.scrollTop = outputEl.scrollTop;
+});
+
+function updateOutputLines(text) {
+    const lines = text.split('\n').length || 1;
+    outLinesEl.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
+}
+
+// UI Utilities
+function showToast(message, duration = 3000) {
+    toastEl.textContent = message;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), duration);
+}
+
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes =['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// Deep Analysis Logic
+function analyzeHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Core metrics
+    const elements = doc.querySelectorAll('*');
+    const tagCounts = {};
+    let maxDepth = 0;
+    
+    elements.forEach(el => {
+        const tag = el.tagName.toLowerCase();
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+        
+        let depth = 0;
+        let curr = el;
+        while (curr.parentElement) { depth++; curr = curr.parentElement; }
+        if (depth > maxDepth) maxDepth = depth;
+    });
+
+    // SEO Score
+    const seo = {
+        title: doc.querySelector('title') ? '✅ Present' : '❌ Missing',
+        metaDesc: doc.querySelector('meta[name="description"]') ? '✅ Present' : '❌ Missing',
+        h1: doc.querySelectorAll('h1').length,
+        h1Status: doc.querySelectorAll('h1').length === 1 ? '✅ Optimal (1)' : (doc.querySelectorAll('h1').length === 0 ? '❌ Missing' : '⚠️ Multiple H1s')
+    };
+
+    // A11y (Accessibility)
+    const a11y = {
+        imgNoAlt: doc.querySelectorAll('img:not([alt])').length,
+        emptyLinks: Array.from(doc.querySelectorAll('a')).filter(a => !a.textContent.trim() && !a.querySelector('img')).length,
+        missingLang: !doc.documentElement.getAttribute('lang')
+    };
+
+    // Performance/Structure
+    const perf = {
+        inlineStyles: doc.querySelectorAll('[style]').length,
+        scripts: doc.querySelectorAll('script').length,
+        css: doc.querySelectorAll('link[rel="stylesheet"], style').length,
+        domDepth: maxDepth
+    };
+
+    return { tagCounts, seo, a11y, perf, totalNodes: elements.length };
+}
+
+function renderAnalysis(analysis) {
+    const html = `
+        <div class="analysis-box">
+            <h4>🎯 SEO & Metadata</h4>
+            <div class="analysis-item"><span>Title Tag</span> <span>${analysis.seo.title}</span></div>
+            <div class="analysis-item"><span>Meta Description</span> <span>${analysis.seo.metaDesc}</span></div>
+            <div class="analysis-item"><span>H1 Tags</span> <span>${analysis.seo.h1Status}</span></div>
+        </div>
+        
+        <div class="analysis-box">
+            <h4>♿ Accessibility</h4>
+            <div class="analysis-item"><span>Images missing Alt</span> <span class="${analysis.a11y.imgNoAlt > 0 ? 'warning' : 'success'}">${analysis.a11y.imgNoAlt}</span></div>
+            <div class="analysis-item"><span>Empty Links</span> <span class="${analysis.a11y.emptyLinks > 0 ? 'warning' : 'success'}">${analysis.a11y.emptyLinks}</span></div>
+            <div class="analysis-item"><span>Missing HTML Lang</span> <span class="${analysis.a11y.missingLang ? 'warning' : 'success'}">${analysis.a11y.missingLang ? 'Yes' : 'No'}</span></div>
+        </div>
+
+        <div class="analysis-box">
+            <h4>⚡ Performance & Structure</h4>
+            <div class="analysis-item"><span>Max DOM Depth</span> <span class="${analysis.perf.domDepth > 15 ? 'warning' : 'success'}">${analysis.perf.domDepth} levels</span></div>
+            <div class="analysis-item"><span>Inline Style Attrs</span> <span class="${analysis.perf.inlineStyles > 5 ? 'warning' : 'success'}">${analysis.perf.inlineStyles}</span></div>
+            <div class="analysis-item"><span>JS Scripts</span> <span>${analysis.perf.scripts}</span></div>
+            <div class="analysis-item"><span>CSS Sources</span> <span>${analysis.perf.css}</span></div>
+        </div>
+
+        <div class="analysis-box">
+            <h4>🏷️ Top Elements Used</h4>
+            ${Object.entries(analysis.tagCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 4)
+                .map(([tag, count]) => `<div class="analysis-item"><span style="font-family: monospace;">&lt;${tag}&gt;</span> <span>${count}</span></div>`)
+                .join('')}
+        </div>
+    `;
+    document.getElementById('analysisResults').innerHTML = html;
+}
+
+// Quantum Worker Engine
+const workerCode = `
+self.onmessage = function(e) {
+    const { html, mode, options } = e.data;
+    const startTime = performance.now();
+    
+    try {
+        let result = html;
+        
+        // Safety preserves for tags where whitespace matters strictly
+        const preserves =[];
+        result = result.replace(/<(pre|code|textarea)([^>]*)>([\\s\\S]*?)<\\/\\1>/gi, (match) => {
+            preserves.push(match);
+            return \`__Q_PRESERVE_\${preserves.length - 1}__\`;
         });
 
-        // Dark Mode Toggle (Optional Enhancement)
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
+        if (mode === 'minify') {
+            // Remove HTML comments (but preserve IE conditional comments if needed, ignored here for max minify)
+            result = result.replace(/<!--([\\s\\S]*?)-->/g, '');
+            
+            // Compress spaces
+            result = result
+                .replace(/\\n\\s+/g, ' ')
+                .replace(/\\s{2,}/g, ' ')
+                .replace(/>\\s+</g, '><')
+                .replace(/\\s+\\/>/g, '/>')
+                .trim();
+        } 
+        else if (mode === 'beautify') {
+            const indentChar = options.indentType === 'tab' ? '\\t' : ' ';
+            const indent = indentChar.repeat(options.indentSize);
+            
+            // Clean up original whitespace
+            result = result.replace(/>\\s+</g, '><').trim();
+            
+            let formatted = '';
+            let pad = 0;
+            
+            // Match tags, text, and comments. 
+            // Better regex to parse HTML tokens:
+            const tokens = result.split(/(<!--[\\s\\S]*?-->|<[^>]*>)/g).filter(Boolean);
+            
+            const voidElements = /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i;
+            
+            for (let i = 0; i < tokens.length; i++) {
+                let token = tokens[i].trim();
+                if (!token) continue;
+                
+                if (token.startsWith('<!--')) {
+                    // Comment
+                    formatted += '\\n' + indent.repeat(pad) + token;
+                }
+                else if (token.match(/^<\\//)) {
+                    // Closing tag
+                    pad = Math.max(0, pad - 1);
+                    formatted += '\\n' + indent.repeat(pad) + token;
+                }
+                else if (token.match(/^</)) {
+                    // Opening or Self-closing tag
+                    formatted += '\\n' + indent.repeat(pad) + token;
+                    
+                    // If not self-closing or void element, increase padding
+                    const tagNameMatch = token.match(/^<([^\\s>\\/]+)/);
+                    if (tagNameMatch) {
+                        const tagName = tagNameMatch[1];
+                        if (!token.endsWith('/>') && !voidElements.test(tagName) && !token.startsWith('<!')) {
+                            pad++;
+                        }
+                    }
+                }
+                else {
+                    // Text node
+                    formatted += '\\n' + indent.repeat(pad) + token;
+                }
+            }
+            result = formatted.trim();
         }
-    </script>
+
+        // Restore preserved content
+        preserves.forEach((content, i) => {
+            result = result.replace(\`__Q_PRESERVE_\${i}__\`, content);
+        });
+
+        self.postMessage({
+            success: true,
+            result: result,
+            time: Math.round(performance.now() - startTime)
+        });
+    } catch(err) {
+        self.postMessage({ success: false, error: err.message });
+    }
+};
+`;
+
+const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
+const worker = new Worker(URL.createObjectURL(workerBlob));
+
+// Process Function
+function processHTML() {
+    const html = inputEl.value;
+    if (!html.trim()) {
+        outputEl.textContent = '';
+        updateOutputLines('');
+        return;
+    }
+    
+    worker.postMessage({
+        html: html,
+        mode: currentMode,
+        options: {
+            indentSize: parseInt(document.getElementById('indentSize').value),
+            indentType: document.getElementById('indentType').value
+        }
+    });
+}
+
+worker.onmessage = function(e) {
+    if (e.data.success) {
+        const result = e.data.result;
+        
+        // Update Output
+        outputEl.textContent = result;
+        updateOutputLines(result);
+        
+        // Update Preview (Safely)
+        previewEl.srcdoc = result;
+        
+        // Update Stats
+        const origBytes = new TextEncoder().encode(inputEl.value).length;
+        const newBytes = new TextEncoder().encode(result).length;
+        const reduction = origBytes ? Math.round((1 - newBytes / origBytes) * 100) : 0;
+        
+        document.getElementById('originalSize').textContent = formatBytes(origBytes);
+        document.getElementById('processedSize').textContent = formatBytes(newBytes);
+        document.getElementById('sizeReduction').textContent = `${reduction}%`;
+        document.getElementById('processTime').textContent = `${e.data.time} ms`;
+        
+        // Deep Analysis
+        const analysis = analyzeHTML(inputEl.value);
+        document.getElementById('elementCount').textContent = analysis.totalNodes;
+        renderAnalysis(analysis);
+        
+        if (!autoProcessToggle.checked) {
+            showToast(`HTML ${currentMode === 'minify' ? 'minified' : 'beautified'} in ${e.data.time}ms`);
+        }
+    } else {
+        showToast('Processing Error: ' + e.data.error);
+    }
+};
+
+// Utilities Actions
+function copyOutput() {
+    navigator.clipboard.writeText(outputEl.textContent)
+        .then(() => showToast('Copied to clipboard! 📋'))
+        .catch(() => showToast('Failed to copy.'));
+}
+
+function downloadOutput() {
+    if (!outputEl.textContent) return showToast('Nothing to download!');
+    const blob = new Blob([outputEl.textContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `optimized_${currentMode}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('Download started! ⬇️');
+}
+
+function clearAll() {
+    inputEl.value = '';
+    outputEl.textContent = '';
+    previewEl.srcdoc = '';
+    updateLineNumbers(inputEl, inLinesEl);
+    updateOutputLines('');
+    showToast('Workspace cleared! 🧹');
+}
+
+function loadSample() {
+    inputEl.value = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Intentionally missing description for Analysis check -->
+    <title>Quantum HTML Test</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f0f0; }
+        .box { padding: 20px; margin: 10px; background: white; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Welcome to Quantum HTML</h1>
+        <h1>Oops, another H1!</h1>
+        
+        <p style="color: blue;">This paragraph has an inline style.</p>
+        
+        <!-- This is a comment that will be stripped in Minify mode -->
+        
+        <img src="placeholder.jpg" /> <!-- Missing alt tag! -->
+        
+        <a href="#"></a> <!-- Empty link! -->
+        
+        <pre>
+function preserveMe() {
+    // This exact spacing should NOT be mangled
+    console.log("Protected area");
+}
+        </pre>
+        
+        <div>
+            <div>
+                <div>
+                    <p>Deep nesting test...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        console.log("Engine loaded.");
+    <\/script>
+</body>
+</html>`;
+    updateLineNumbers(inputEl, inLinesEl);
+    processHTML();
+    showToast('Sample code loaded! 🧪');
+}
+
+// Init
+loadSample();
+</script>
 </body>
 </html>
