@@ -3,539 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum HTML Optimizer Pro-Gen</title>
+<title>Quantum HTML Optimizer : Apex Edition</title>
 <style>
-/* ---------------- THEME & CORE ---------------- */
+/* ==========================================================================
+   APEX CSS FRAMEWORK (100% Offline, Tailwind-Inspired Glassmorphism)
+   ========================================================================== */
 :root {
-    --bg-base: #050505;
-    --bg-surface: #0a0a0a;
-    --bg-panel: #121212;
-    --bg-hover: #1f1f1f;
-    --accent: #00e5ff;
-    --accent-glow: rgba(0, 229, 255, 0.4);
-    --primary: #7000ff;
-    --text-main: #f3f4f6;
-    --text-muted: #9ca3af;
-    --border: #27272a;
+    --bg-base: #0f111a;
+    --bg-glass: rgba(25, 30, 45, 0.6);
+    --bg-glass-hover: rgba(35, 42, 60, 0.8);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #8b5cf6;
+    --primary-hover: #7c3aed;
+    --secondary: #3b82f6;
+    --accent: #06b6d4;
     --success: #10b981;
     --warning: #f59e0b;
     --error: #ef4444;
-    --code-blue: #60a5fa;
-    --code-green: #4ade80;
-    --code-pink: #f472b6;
+    --glow-primary: rgba(139, 92, 246, 0.4);
+    
+    --code-tag: #f472b6;
+    --code-attr: #60a5fa;
+    --code-string: #a78bfa;
+    --code-text: #e2e8f0;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-base);
+    background: radial-gradient(circle at top left, #1e1b4b, var(--bg-base) 40%),
+                radial-gradient(circle at bottom right, #0f172a, var(--bg-base) 60%);
     color: var(--text-main);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-/* ---------------- HEADER & LAYOUT ---------------- */
-header {
-    padding: 16px 24px;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
-}
-
-.brand h1 {
-    font-size: 22px;
-    font-weight: 800;
-    background: linear-gradient(90deg, var(--accent), var(--primary));
+/* Typography & Utilities */
+h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
+.text-gradient {
+    background: linear-gradient(135deg, var(--secondary), var(--primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -0.5px;
+}
+.subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 10px auto; }
+.text-center { text-align: center; }
+.flex { display: flex; }
+.grid { display: grid; }
+
+/* Layout */
+header { padding: 30px 20px 20px; z-index: 10; }
+.workspace { flex: 1; display: flex; gap: 20px; padding: 0 20px 20px; overflow: hidden; }
+@media (max-width: 1024px) { .workspace { flex-direction: column; overflow-y: auto; } }
+
+/* Glassmorphism Components */
+.glass {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-.subtitle { font-size: 12px; color: var(--text-muted); font-family: monospace; margin-top: 4px; }
+.panel { padding: 20px; display: flex; flex-direction: column; }
 
-.workspace {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    overflow: hidden;
-}
+/* Sidebar Controls */
+.sidebar { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+@media (max-width: 1024px) { .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; overflow: visible; } }
 
-/* ---------------- SIDEBAR CONTROLS ---------------- */
-.sidebar {
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border);
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
+.control-group { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px; border: 1px solid var(--border-glass); }
+.control-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 12px; font-weight: 700; }
 
-.control-group h3 {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-}
-
+/* Buttons & Toggles */
 .btn {
-    width: 100%;
-    padding: 10px;
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    color: var(--text-main);
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+    padding: 12px 20px; border: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
+    cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--bg-glass); color: var(--text-main); border: 1px solid var(--border-glass);
 }
-.btn:hover { background: var(--bg-hover); }
-.btn-primary { background: var(--primary); border-color: var(--primary); color: white; }
-.btn-primary:hover { background: #5a00d1; box-shadow: 0 0 15px rgba(112,0,255,0.4); }
+.btn:hover { background: var(--bg-glass-hover); transform: translateY(-2px); }
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none; color: white; box-shadow: 0 4px 15px var(--glow-primary);
+}
+.btn-primary:hover { background: linear-gradient(135deg, var(--primary-hover), var(--secondary)); box-shadow: 0 6px 20px var(--glow-primary); }
 
-.mode-selector {
-    display: flex;
-    background: var(--bg-panel);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    overflow: hidden;
-}
-.mode-btn {
-    flex: 1;
-    padding: 10px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.mode-btn.active { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent-glow); }
+.mode-toggle { display: flex; background: rgba(0,0,0,0.3); border-radius: 10px; padding: 4px; }
+.mode-btn { flex: 1; padding: 10px; background: transparent; border: none; border-radius: 8px; color: var(--text-muted); font-weight: 600; cursor: pointer; transition: 0.3s; }
+.mode-btn.active { background: var(--primary); color: white; box-shadow: 0 2px 10px var(--glow-primary); }
 
-.toggle-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: var(--text-main);
-}
+.switch-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.85rem; }
+.switch { position: relative; width: 40px; height: 22px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.1); transition: .3s; border-radius: 34px; border: 1px solid var(--border-glass); }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background: white; transition: .3s; border-radius: 50%; }
+input:checked + .slider { background: var(--primary); border-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(18px); }
 
-.toggle-switch {
-    position: relative;
-    width: 36px;
-    height: 20px;
-}
-.toggle-switch input { opacity: 0; width: 0; height: 0; }
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: var(--border);
-    transition: .3s;
-    border-radius: 20px;
-}
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 14px; width: 14px;
-    left: 3px; bottom: 3px;
-    background-color: white;
-    transition: .3s;
-    border-radius: 50%;
-}
-input:checked + .slider { background-color: var(--accent); }
-input:checked + .slider:before { transform: translateX(16px); }
+/* Main Editors */
+.main-area { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.editors { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; min-height: 350px; }
+@media (max-width: 768px) { .editors { grid-template-columns: 1fr; } }
 
-/* ---------------- MAIN EDITOR AREA ---------------- */
-.main-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
-}
+.editor-wrap { display: flex; flex-direction: column; overflow: hidden; position: relative; }
+.editor-header { padding: 12px 16px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+.editor-body { flex: 1; display: flex; overflow: hidden; background: rgba(0,0,0,0.2); }
 
-.editors-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    flex: 1;
-    min-height: 0;
-    border-bottom: 1px solid var(--border);
-}
+.line-numbers { padding: 16px 8px; background: rgba(0,0,0,0.4); color: #475569; font-family: 'Fira Code', monospace; font-size: 0.85rem; text-align: right; user-select: none; border-right: 1px solid var(--border-glass); overflow: hidden; min-width: 45px; line-height: 1.6; }
+textarea, .code-output { flex: 1; background: transparent; color: var(--text-main); padding: 16px; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6; border: none; resize: none; outline: none; white-space: pre; overflow: auto; tab-size: 4; }
+textarea { color: var(--code-attr); }
+.code-output { color: var(--code-text); }
 
-@media(max-width: 900px) { .workspace { grid-template-columns: 1fr; } .editors-container { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; } }
-
-.editor-pane {
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid var(--border);
-    background: var(--bg-base);
-}
-
-.pane-header {
-    padding: 10px 16px;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-}
-
-.code-area {
-    flex: 1;
-    display: flex;
-    position: relative;
-    overflow: hidden;
-}
-
-.line-numbers {
-    padding: 16px 8px;
-    background: var(--bg-surface);
-    color: #4b5563;
-    font-family: 'Fira Code', monospace;
-    font-size: 13px;
-    text-align: right;
-    border-right: 1px solid var(--border);
-    user-select: none;
-    overflow: hidden;
-    min-width: 40px;
-}
-
-textarea, .output-display {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    color: var(--text-main);
-    padding: 16px;
-    font-family: 'Fira Code', Consolas, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    border: none;
-    resize: none;
-    outline: none;
-    white-space: pre;
-    overflow: auto;
-    tab-size: 4;
-}
-textarea { color: var(--code-blue); }
-.output-display { color: var(--code-green); }
-
-/* ---------------- BOTTOM TABS & ANALYSIS ---------------- */
-.bottom-panel {
-    height: 35vh;
-    background: var(--bg-surface);
-    display: flex;
-    flex-direction: column;
-}
-
-.tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-panel);
-}
-.tab {
-    padding: 12px 24px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-    border-bottom: 2px solid transparent;
-}
-.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-.tab-content { display: none; padding: 20px; overflow-y: auto; height: 100%; }
+/* Bottom Tabs */
+.bottom-panel { height: 35vh; min-height: 250px; display: flex; flex-direction: column; overflow: hidden; }
+.tabs { display: flex; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--border-glass); }
+.tab { padding: 12px 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; transition: 0.2s; }
+.tab:hover { color: var(--text-main); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); background: rgba(6, 182, 212, 0.1); }
+.tab-content { display: none; padding: 20px; overflow-y: auto; flex: 1; }
 .tab-content.active { display: block; }
 
-/* Stats & Score */
-.dashboard-grid { display: grid; grid-template-columns: 250px 1fr; gap: 24px; height: 100%; }
-.score-card {
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.score-circle {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 42px;
-    font-weight: 900;
-    margin-bottom: 10px;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-}
-.score-A { color: var(--success); border: 4px solid var(--success); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-.score-B { color: var(--code-blue); border: 4px solid var(--code-blue); }
+/* Dashboard & Metrics */
+.dashboard { display: grid; grid-template-columns: auto 1fr; gap: 30px; height: 100%; }
+@media(max-width: 768px) { .dashboard { grid-template-columns: 1fr; } }
+.score-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; border: 1px solid var(--border-glass); width: 200px; }
+.score-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; margin: 10px 0; text-shadow: 0 0 20px currentColor; box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+.score-A { color: var(--success); border: 4px solid var(--success); }
+.score-B { color: var(--secondary); border: 4px solid var(--secondary); }
 .score-C { color: var(--warning); border: 4px solid var(--warning); }
 .score-D { color: var(--error); border: 4px solid var(--error); }
 
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 16px;
-}
-.metric-box {
-    background: var(--bg-panel);
-    border: 1px solid var(--border);
-    padding: 16px;
-    border-radius: 8px;
-}
-.m-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-.m-val { font-size: 20px; font-weight: 700; margin-top: 8px; font-family: monospace; }
-.m-sub { font-size: 11px; margin-top: 4px; color: var(--text-muted); }
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; width: 100%; }
+.metric-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); padding: 15px; border-radius: 12px; display: flex; flex-direction: column; }
+.m-val { font-size: 1.5rem; font-weight: 700; margin: 5px 0; font-family: monospace; }
+.m-sub { font-size: 0.75rem; color: var(--text-muted); }
 
-/* DOM Tree */
-.tree-node { margin-left: 20px; font-family: monospace; font-size: 13px; border-left: 1px dashed var(--border); padding-left: 10px; margin-top: 4px;}
-.tree-tag { color: var(--code-pink); font-weight: bold; }
-.tree-attr { color: var(--warning); }
-.tree-text { color: var(--text-muted); font-style: italic; }
+/* Interactive DOM Tree */
+details { margin-left: 15px; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+summary { cursor: pointer; list-style: none; display: flex; align-items: center; transition: 0.2s; border-radius: 4px; padding: 2px 4px; }
+summary::-webkit-details-marker { display: none; }
+summary:hover { background: rgba(255,255,255,0.05); }
+summary::before { content: '▶'; font-size: 0.6rem; color: var(--text-muted); margin-right: 8px; transition: 0.2s; display: inline-block; }
+details[open] > summary::before { transform: rotate(90deg); }
+.tree-tag { color: var(--code-tag); font-weight: 600; }
+.tree-attr { color: var(--code-attr); }
+.tree-val { color: var(--code-string); }
+.tree-text { color: var(--text-muted); font-style: italic; margin-left: 20px; border-left: 1px dashed var(--border-glass); padding-left: 10px; }
 
-iframe { width: 100%; height: 100%; border: none; background: white; border-radius: 8px; }
+iframe { width: 100%; height: 100%; border: none; border-radius: 8px; background: white; }
+select { background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--border-glass); padding: 4px 8px; border-radius: 6px; outline: none; }
 
-/* Toast */
-.toast {
-    position: fixed; top: 20px; right: 20px;
-    background: var(--primary); color: white;
-    padding: 12px 24px; border-radius: 8px;
-    font-size: 14px; font-weight: 600;
-    transform: translateY(-100px); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 100; box-shadow: 0 10px 30px rgba(112,0,255,0.4);
-}
+/* Toasts */
+.toast { position: fixed; top: 20px; right: 20px; background: var(--primary); color: white; padding: 12px 24px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transform: translateY(-150%); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; box-shadow: 0 10px 30px var(--glow-primary); }
 .toast.show { transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<header>
-    <div class="brand">
-        <h1>QUANTUM Pro-Gen</h1>
-        <div class="subtitle">Next-Level AST HTML Optimizer</div>
-    </div>
-    <div style="display: flex; gap: 10px; width: 300px;">
-        <button class="btn" onclick="loadSample()">Load Sample</button>
-        <button class="btn btn-primary" onclick="processHTML()">⚡ Execute Process</button>
-    </div>
+<header class="text-center">
+    <h1 class="text-gradient">Quantum HTML : Apex</h1>
+    <p class="subtitle">Advanced AST Compilation • Smart Formatting • Deep Analysis</p>
 </header>
 
 <div class="workspace">
-    <!-- SIDEBAR SETTINGS -->
+    <!-- SIDEBAR CONTROLS -->
     <div class="sidebar">
-        <div class="control-group">
-            <h3>Engine Mode</h3>
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="minify">MINIFY</button>
-                <button class="mode-btn" data-mode="beautify">BEAUTIFY</button>
+        <div class="glass panel">
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 15px; font-size: 1rem;" onclick="processHTML()">
+                ⚡ Execute Engine
+            </button>
+            <button class="btn" style="width: 100%; margin-bottom: 20px;" onclick="loadSample()">
+                🧪 Load Sample Data
+            </button>
+
+            <div class="control-group">
+                <div class="control-title">Operation Mode</div>
+                <div class="mode-toggle">
+                    <button class="mode-btn active" data-mode="minify">MINIFY</button>
+                    <button class="mode-btn" data-mode="beautify">BEAUTIFY</button>
+                </div>
             </div>
         </div>
 
-        <div class="control-group">
-            <h3>Advanced Aggression (Minify)</h3>
-            <label class="toggle-item"> Strip Attribute Quotes 
-                <label class="toggle-switch"><input type="checkbox" id="optNoQuotes" checked><span class="slider"></span></label>
-            </label>
-            <label class="toggle-item"> Collapse Booleans 
-                <label class="toggle-switch"><input type="checkbox" id="optBooleans" checked><span class="slider"></span></label>
-            </label>
-            <label class="toggle-item"> Deep CSS Minify
-                <label class="toggle-switch"><input type="checkbox" id="optMinCss" checked><span class="slider"></span></label>
-            </label>
-            <label class="toggle-item"> Deep JS Minify
-                <label class="toggle-switch"><input type="checkbox" id="optMinJs" checked><span class="slider"></span></label>
-            </label>
-            <label class="toggle-item"> Remove Defaults (type=text)
-                <label class="toggle-switch"><input type="checkbox" id="optDefaults" checked><span class="slider"></span></label>
-            </label>
+        <div class="glass panel" id="minifySettings">
+            <div class="control-title">Deep Minification Rules</div>
+            <label class="switch-row"> Strip Quotes (class=btn) <label class="switch"><input type="checkbox" id="optQuotes" checked><span class="slider"></span></label></label>
+            <label class="switch-row"> Collapse Booleans <label class="switch"><input type="checkbox" id="optBools" checked><span class="slider"></span></label></label>
+            <label class="switch-row"> Deep CSS Minify <label class="switch"><input type="checkbox" id="optCSS" checked><span class="slider"></span></label></label>
+            <label class="switch-row"> Deep JS Minify <label class="switch"><input type="checkbox" id="optJS" checked><span class="slider"></span></label></label>
+            <label class="switch-row"> Strip Type Defaults <label class="switch"><input type="checkbox" id="optDefs" checked><span class="slider"></span></label></label>
         </div>
 
-        <div class="control-group" id="beautifySettings" style="display: none;">
-            <h3>Beautifier Rules</h3>
-            <label class="toggle-item"> Smart Inline Tags 
-                <label class="toggle-switch"><input type="checkbox" id="optSmartInline" checked><span class="slider"></span></label>
-            </label>
-            <label class="toggle-item"> Indent Size
-                <select id="optIndent" style="background:var(--bg-panel); color:white; border:1px solid var(--border); padding:4px; border-radius:4px;">
+        <div class="glass panel" id="beautifySettings" style="display: none;">
+            <div class="control-title">Smart Beautifier Rules</div>
+            <label class="switch-row"> Keep Inline Tags Fluid <label class="switch"><input type="checkbox" id="optInline" checked><span class="slider"></span></label></label>
+            <label class="switch-row"> Deep JS/CSS Formatting <label class="switch"><input type="checkbox" id="optDeepFormat" checked><span class="slider"></span></label></label>
+            <label class="switch-row" style="margin-top: 10px;"> Indentation
+                <select id="optIndent">
                     <option value="2">2 Spaces</option>
                     <option value="4" selected>4 Spaces</option>
                     <option value="tab">Tabs</option>
                 </select>
             </label>
         </div>
-
-        <div class="control-group">
-            <h3>Automation</h3>
-            <label class="toggle-item"> Live Auto-Process
-                <label class="toggle-switch"><input type="checkbox" id="optAuto" checked><span class="slider"></span></label>
-            </label>
-        </div>
     </div>
 
-    <!-- MAIN EDITOR -->
-    <div class="main-content">
-        <div class="editors-container">
-            <div class="editor-pane">
-                <div class="pane-header">
-                    <span>INPUT HTML</span>
-                    <span id="inSize" style="color:var(--code-blue)">0 B</span>
+    <!-- MAIN EDITOR & TABS -->
+    <div class="main-area">
+        <div class="editors">
+            <!-- Input -->
+            <div class="glass editor-wrap">
+                <div class="editor-header">
+                    <span><span style="color:var(--primary)">■</span> INPUT SOURCE</span>
+                    <span id="inSize" style="color:var(--code-attr)">0 B</span>
                 </div>
-                <div class="code-area">
+                <div class="editor-body">
                     <div class="line-numbers" id="inLines">1</div>
-                    <textarea id="input" spellcheck="false" wrap="off"></textarea>
+                    <textarea id="input" spellcheck="false" wrap="off" placeholder="Paste your HTML here..."></textarea>
                 </div>
             </div>
             
-            <div class="editor-pane">
-                <div class="pane-header">
-                    <span>OUTPUT HTML</span>
+            <!-- Output -->
+            <div class="glass editor-wrap">
+                <div class="editor-header">
+                    <span><span style="color:var(--success)">■</span> OPTIMIZED OUTPUT</span>
                     <div style="display: flex; gap: 10px;">
-                        <span id="outSize" style="color:var(--success)">0 B</span>
-                        <a href="#" style="color:var(--accent); text-decoration:none;" onclick="copyOutput()">[Copy]</a>
-                        <a href="#" style="color:var(--accent); text-decoration:none;" onclick="downloadOutput()">[DL]</a>
+                        <span id="outSize" style="color:var(--success); margin-right: 10px;">0 B</span>
+                        <button class="btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="copyOutput()">Copy</button>
+                        <button class="btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="downloadOutput()">DL</button>
                     </div>
                 </div>
-                <div class="code-area">
+                <div class="editor-body">
                     <div class="line-numbers" id="outLines">1</div>
-                    <div class="output-display" id="output"></div>
+                    <div class="code-output" id="output"></div>
                 </div>
             </div>
         </div>
 
-        <!-- BOTTOM PANELS -->
-        <div class="bottom-panel">
+        <!-- Bottom Panel -->
+        <div class="glass bottom-panel">
             <div class="tabs">
-                <div class="tab active" data-tab="dashboard">📊 Engine Dashboard</div>
-                <div class="tab" data-tab="tree">🌳 DOM Tree Visualizer</div>
-                <div class="tab" data-tab="preview">👁️ Live Render</div>
+                <div class="tab active" data-tab="dashboard">📊 Analysis Dashboard</div>
+                <div class="tab" data-tab="tree">🌳 Interactive DOM Tree</div>
+                <div class="tab" data-tab="preview">👁️ Live Preview</div>
             </div>
 
             <div class="tab-content active" id="dashboard-content">
-                <div class="dashboard-grid">
-                    <div class="score-card">
-                        <div class="m-title" style="margin-bottom:10px;">Health & Perf Score</div>
+                <div class="dashboard">
+                    <div class="score-box">
+                        <div class="control-title text-center">Health Grade</div>
                         <div class="score-circle" id="healthScore">A</div>
-                        <div class="m-sub" id="healthDesc">Highly Optimized</div>
+                        <div class="m-sub text-center" id="healthDesc" style="margin-top: 5px;">Perfectly Optimized</div>
                     </div>
-                    <div class="metrics-grid">
-                        <div class="metric-box">
-                            <div class="m-title">Space Saved</div>
+                    <div class="metrics">
+                        <div class="metric-card">
+                            <div class="control-title">Space Saved</div>
                             <div class="m-val" id="mSaved" style="color:var(--success)">0%</div>
-                            <div class="m-sub" id="mBytesSaved">0 Bytes removed</div>
+                            <div class="m-sub" id="mBytesSaved">0 Bytes eliminated</div>
                         </div>
-                        <div class="metric-box">
-                            <div class="m-title">Execution Time</div>
-                            <div class="m-val" id="mTime" style="color:var(--code-blue)">0ms</div>
-                            <div class="m-sub">Quantum Worker Engine</div>
+                        <div class="metric-card">
+                            <div class="control-title">Engine Time</div>
+                            <div class="m-val" id="mTime" style="color:var(--secondary)">0ms</div>
+                            <div class="m-sub">Non-blocking Worker</div>
                         </div>
-                        <div class="metric-box">
-                            <div class="m-title">DOM Nodes</div>
+                        <div class="metric-card">
+                            <div class="control-title">DOM Nodes</div>
                             <div class="m-val" id="mNodes">0</div>
-                            <div class="m-sub">Total parsed elements</div>
+                            <div class="m-sub">Parsed elements</div>
                         </div>
-                        <div class="metric-box">
-                            <div class="m-title">Accessibility Issues</div>
-                            <div class="m-val" id="mA11y" style="color:var(--warning)">0</div>
-                            <div class="m-sub" id="mA11yDesc">Missing alt/labels</div>
+                        <div class="metric-card">
+                            <div class="control-title">A11y & SEO Issues</div>
+                            <div class="m-val" id="mIssues" style="color:var(--warning)">0</div>
+                            <div class="m-sub" id="mIssuesList">No violations</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="tab-content" id="tree-content">
-                <div id="domTreeView" style="padding-bottom: 30px;">
-                    <!-- Tree rendered via JS -->
+                <div id="domTreeView">
+                    <p style="color: var(--text-muted); font-style: italic;">Execute engine to generate tree...</p>
                 </div>
             </div>
 
-            <div class="tab-content" id="preview-content" style="padding:0;">
+            <div class="tab-content" id="preview-content" style="padding: 0;">
                 <iframe id="preview" sandbox="allow-scripts"></iframe>
             </div>
         </div>
     </div>
 </div>
 
-<div id="toast" class="toast">Action Complete</div>
+<div id="toast" class="toast">Action Complete!</div>
 
 <script>
-// UI Elements
-const inputEl = document.getElementById('input');
-const outputEl = document.getElementById('output');
-const inLinesEl = document.getElementById('inLines');
-const outLinesEl = document.getElementById('outLines');
-const previewEl = document.getElementById('preview');
+/* ==========================================================================
+   UI STATE & EVENT LISTENERS
+   ========================================================================== */
+const el = {
+    input: document.getElementById('input'), output: document.getElementById('output'),
+    inLines: document.getElementById('inLines'), outLines: document.getElementById('outLines'),
+    preview: document.getElementById('preview'), modeBtns: document.querySelectorAll('.mode-btn'),
+    tabs: document.querySelectorAll('.tab'), tabContents: document.querySelectorAll('.tab-content')
+};
 let currentMode = 'minify';
-let debounceTimer;
 
-// Setup Tabs
-document.querySelectorAll('.tab').forEach(tab => {
+// UI Tabs
+el.tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+        el.tabs.forEach(t => t.classList.remove('active'));
+        el.tabContents.forEach(c => c.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById(`${tab.dataset.tab}-content`).classList.add('active');
     });
 });
 
-// Mode Selector
-document.querySelectorAll('.mode-btn').forEach(btn => {
+// Mode Toggle
+el.modeBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        el.modeBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentMode = btn.dataset.mode;
-        document.getElementById('beautifySettings').style.display = currentMode === 'beautify' ? 'block' : 'none';
-        processHTML();
+        document.getElementById('minifySettings').style.display = currentMode === 'minify' ? 'flex' : 'none';
+        document.getElementById('beautifySettings').style.display = currentMode === 'beautify' ? 'flex' : 'none';
+        if(el.input.value.trim()) processHTML();
     });
 });
 
-// Line Sync
+// Synchronized Line Numbers
 function syncLines(textarea, lineDiv) {
     const lines = textarea.value.split('\n').length || 1;
     lineDiv.innerHTML = Array(lines).fill(0).map((_, i) => i + 1).join('<br>');
 }
-inputEl.addEventListener('input', () => {
-    syncLines(inputEl, inLinesEl);
-    if(document.getElementById('optAuto').checked) {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(processHTML, 400);
-    }
-});
-inputEl.addEventListener('scroll', () => { inLinesEl.scrollTop = inputEl.scrollTop; });
-outputEl.addEventListener('scroll', () => { outLinesEl.scrollTop = outputEl.scrollTop; });
+el.input.addEventListener('input', () => { syncLines(el.input, el.inLines); });
+el.input.addEventListener('scroll', () => { el.inLines.scrollTop = el.input.scrollTop; });
+el.output.addEventListener('scroll', () => { el.outLines.scrollTop = el.output.scrollTop; });
 
 // Utils
-function showToast(msg) {
+function toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg; t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
 }
 function formatBytes(bytes) {
     if (bytes === 0) return '0 B';
-    const k = 1024; const sizes = ['B', 'KB', 'MB', 'GB'];
+    const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-// ---------------- QUANTUM WORKER ENGINE ----------------
-// The worker code is injected here to run heavy Regex/AST logic off the main thread.
+/* ==========================================================================
+   QUANTUM APEX WORKER ENGINE (AST-Regex Hybrid)
+   ========================================================================== */
 const workerCode = `
 self.onmessage = function(e) {
     const { html, mode, options } = e.data;
@@ -543,169 +364,123 @@ self.onmessage = function(e) {
     let result = html;
 
     try {
-        // --- PRESERVATION PASS ---
-        // Safely extract tags where whitespace is strictly protected
+        // 1. SAFE EXTRACTION PASS (Preserve sensitive blocks)
         const preserves = [];
-        result = result.replace(/<(pre|code|textarea)([^>]*)>([\\s\\S]*?)<\\/\\1>/gi, match => {
-            preserves.push(match);
+        result = result.replace(/<(pre|code|textarea|script|style)([^>]*)>([\\s\\S]*?)<\\/\\1>/gi, (match, tag, attrs, content) => {
+            preserves.push({ tag: tag.toLowerCase(), attrs, content });
             return \`___Q_PRESERVE_\${preserves.length - 1}___\`;
         });
 
         if (mode === 'minify') {
-            // 1. Strip Comments (Except IE Conditionals)
+            // Remove HTML Comments
             result = result.replace(/<!--(?!\\s*\\[if)[\\s\\S]*?-->/g, '');
+            
+            // Collapse HTML Whitespace
+            result = result.replace(/\\n\\s+/g, ' ').replace(/\\s{2,}/g, ' ').replace(/>\\s+</g, '><').trim();
 
-            // 2. CSS Minification
-            if (options.minCss) {
-                result = result.replace(/<style([^>]*)>([\\s\\S]*?)<\\/style>/gi, (match, attrs, css) => {
-                    let min = css
-                        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '') // comments
-                        .replace(/\\s+/g, ' ')                  // spaces
-                        .replace(/\\s*([{}|:;,])\\s*/g, '$1')   // punctuation spaces
-                        .replace(/;}/g, '}')                    // trailing semi
-                        .trim();
-                    return \`<style\${attrs}>\${min}</style>\`;
-                });
-            }
-
-            // 3. JS Minification (Safe AST-Regex approach)
-            if (options.minJs) {
-                result = result.replace(/<script([^>]*)>([\\s\\S]*?)<\\/script>/gi, (match, attrs, js) => {
-                    // Skip if src exists
-                    if(/src=/i.test(attrs)) return match;
-                    let min = js
-                        .replace(/\\/\\*[\\s\\S]*?\\*\\//g, '') // block comments
-                        .replace(/(^|[^:\\\\])\\/\\/.*$/gm, '$1') // line comments (safe for urls)
-                        .replace(/\\s+/g, ' ')
-                        .replace(/\\s*([{}()\\[\\]=+\\-*/,;!?:|&<>])\\s*/g, '$1')
-                        .trim();
-                    return \`<script\${attrs}>\${min}</script>\`;
-                });
-            }
-
-            // 4. HTML Whitespace Collapse
-            result = result
-                .replace(/\\n\\s+/g, ' ')
-                .replace(/\\s{2,}/g, ' ')
-                .replace(/>\\s+</g, '><')
-                .trim();
-
-            // 5. Aggressive Attribute Compaction
-            if (options.noQuotes) {
-                // Remove quotes around simple attributes (no spaces, =, <, >, \`, ")
+            // Aggressive Attribute Minification
+            if (options.optQuotes) {
                 result = result.replace(/([a-zA-Z0-9\\-]+)="([a-zA-Z0-9\\-_]+)"/g, '$1=$2');
                 result = result.replace(/([a-zA-Z0-9\\-]+)='([a-zA-Z0-9\\-_]+)'/g, '$1=$2');
             }
-            if (options.booleans) {
-                const bools =['checked', 'disabled', 'readonly', 'required', 'selected', 'hidden', 'multiple'];
-                bools.forEach(b => {
+            if (options.optBools) {['checked', 'disabled', 'readonly', 'required', 'selected', 'hidden', 'multiple'].forEach(b => {
                     const regex = new RegExp(\`\${b}="\${b}"|\${b}='\${b}'|\${b}="true"\`, 'gi');
                     result = result.replace(regex, b);
                 });
             }
-            if (options.defaults) {
-                result = result.replace(/type="text\\/javascript"/gi, '');
-                result = result.replace(/type="text\\/css"/gi, '');
-                result = result.replace(/type=text\\/javascript/gi, '');
-                result = result.replace(/type=text\\/css/gi, '');
-                result = result.replace(/<input([^>]*?)type="text"([^>]*?)>/gi, '<input$1$2>');
-                result = result.replace(/<input([^>]*?)type=text([^>]*?)>/gi, '<input$1$2>');
+            if (options.optDefs) {
+                result = result.replace(/\\s*type="text\\/(javascript|css)"/gi, '');
+                result = result.replace(/\\s*type=text\\/(javascript|css)/gi, '');
             }
-            
-            // Cleanup extra spaces in tags
-            result = result.replace(/\\s+>/g, '>');
+
+            // Minify Preserved JS/CSS
+            preserves.forEach(p => {
+                if (p.tag === 'style' && options.optCSS) {
+                    p.content = p.content.replace(/\\/\\*[\\s\\S]*?\\*\\//g, '').replace(/\\s+/g, ' ').replace(/\\s*([{}|:;,])\\s*/g, '$1').replace(/;}/g, '}').trim();
+                } else if (p.tag === 'script' && options.optJS && !/src=/i.test(p.attrs)) {
+                    p.content = p.content.replace(/\\/\\*[\\s\\S]*?\\*\\//g, '').replace(/(^|[^:\\\\])\\/\\/.*$/gm, '$1').replace(/\\s+/g, ' ').replace(/\\s*([{}()\\[\\]=+\\-*/,;!?:|&<>])\\s*/g, '$1').trim();
+                }
+            });
 
         } else if (mode === 'beautify') {
-            const indentStr = options.indent === 'tab' ? '\\t' : ' '.repeat(parseInt(options.indent));
-            const inlineTags = /^(a|abbr|b|bdi|bdo|br|cite|code|data|dfn|em|i|kbd|mark|q|rp|rt|ruby|s|samp|small|span|strong|sub|sup|time|u|var|wbr)$/i;
+            const ind = options.optIndent === 'tab' ? '\\t' : ' '.repeat(parseInt(options.optIndent));
+            const inlineTags = /^(a|abbr|b|bdi|bdo|br|cite|data|dfn|em|i|kbd|mark|q|rp|rt|ruby|s|samp|small|span|strong|sub|sup|time|u|var|wbr)$/i;
             
-            // Clean initial whitespace
             result = result.replace(/>\\s+</g, '><').trim();
-            
-            // Tokenize DOM logic
-            // Matches: 1. Comments  2. Closing tags  3. Opening tags  4. Text
             const tokens = result.split(/(<!--[\\s\\S]*?-->|<\\/[^>]+>|<[^>]+\\/?>)/g).filter(t => t.trim().length > 0);
             
             let formatted = '';
             let depth = 0;
             let lastType = ''; // 'block', 'inline', 'text'
 
-            for (let i = 0; i < tokens.length; i++) {
-                let token = tokens[i];
-                let isText = !token.startsWith('<');
-                
+            tokens.forEach(token => {
                 if (token.startsWith('<!--')) {
-                    formatted += '\\n' + indentStr.repeat(depth) + token;
+                    formatted += '\\n' + ind.repeat(depth) + token;
                     lastType = 'block';
-                }
-                else if (token.match(/^<\\//)) {
-                    // Closing Tag
+                } else if (token.match(/^<\\//)) { // Closing tag
                     let tag = token.replace(/<\\/|>/g, '').trim().toLowerCase();
-                    let isInline = options.smartInline && inlineTags.test(tag);
+                    let isInline = options.optInline && inlineTags.test(tag);
                     
                     if (!isInline && lastType !== 'inline') depth = Math.max(0, depth - 1);
-                    
-                    if (isInline && (lastType === 'text' || lastType === 'inline')) {
-                        formatted += token; // Attach directly
-                        lastType = 'inline';
-                    } else {
-                        formatted += (lastType === 'text' ? '' : '\\n' + indentStr.repeat(depth)) + token;
-                        lastType = isInline ? 'inline' : 'block';
-                    }
-                }
-                else if (token.match(/^</)) {
-                    // Opening Tag
+                    formatted += (isInline && (lastType === 'text' || lastType === 'inline')) ? token : ('\\n' + ind.repeat(depth) + token);
+                    lastType = isInline ? 'inline' : 'block';
+                } else if (token.match(/^</)) { // Opening tag
                     let tagMatch = token.match(/^<([^\\s>\\/]+)/);
                     let tag = tagMatch ? tagMatch[1].toLowerCase() : '';
-                    let isInline = options.smartInline && inlineTags.test(tag);
-                    let isSelfClosing = token.endsWith('/>') || /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/i.test(tag);
-                    let isDoctype = tag.startsWith('!');
+                    let isInline = options.optInline && inlineTags.test(tag);
+                    let isSelfClosing = token.endsWith('/>') || /^(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr|!doctype)$/i.test(tag);
 
-                    if (isInline && (lastType === 'text' || lastType === 'inline' || lastType === '')) {
-                        formatted += token; // Attach directly
-                        lastType = 'inline';
-                    } else {
-                        formatted += (formatted.length > 0 ? '\\n' : '') + (!isDoctype ? indentStr.repeat(depth) : '') + token;
-                        lastType = isInline ? 'inline' : 'block';
-                    }
-
-                    if (!isSelfClosing && !isInline && !isDoctype) depth++;
-                }
-                else {
-                    // Text Node
-                    token = token.trim();
-                    if (token) {
-                        if (lastType === 'inline') {
-                            formatted += token;
-                        } else {
-                            formatted += '\\n' + indentStr.repeat(depth) + token;
-                        }
+                    formatted += (isInline && (lastType === 'text' || lastType === 'inline' || lastType === '')) 
+                        ? token : ((formatted.length > 0 ? '\\n' : '') + (!tag.startsWith('!') ? ind.repeat(depth) : '') + token);
+                    
+                    lastType = isInline ? 'inline' : 'block';
+                    if (!isSelfClosing && !isInline && !tag.startsWith('!')) depth++;
+                } else { // Text
+                    let text = token.trim();
+                    if (text) {
+                        formatted += (lastType === 'inline') ? text : ('\\n' + ind.repeat(depth) + text);
                         lastType = 'text';
                     }
                 }
-            }
+            });
             result = formatted.trim();
+
+            // Deep JS/CSS Formatting
+            if (options.optDeepFormat) {
+                preserves.forEach(p => {
+                    if ((p.tag === 'style' || p.tag === 'script') && p.content.trim()) {
+                        let lines = p.content.replace(/([{}])/g, '\\n$1\\n').split('\\n');
+                        let innerDepth = 1;
+                        let pretty = '\\n';
+                        lines.forEach(line => {
+                            line = line.trim();
+                            if (!line) return;
+                            if (line === '}') innerDepth = Math.max(0, innerDepth - 1);
+                            pretty += ind.repeat(innerDepth) + line + '\\n';
+                            if (line === '{') innerDepth++;
+                        });
+                        p.content = pretty;
+                    } else if (p.content.trim()) {
+                        p.content = '\\n' + ind + p.content.trim() + '\\n'; // Indent pre/code
+                    }
+                });
+            }
         }
 
-        // --- RESTORATION PASS ---
-        preserves.forEach((content, i) => {
-            result = result.replace(\`___Q_PRESERVE_\${i}___\`, content);
+        // 2. RESTORATION PASS
+        preserves.forEach((p, i) => {
+            result = result.replace(\`___Q_PRESERVE_\${i}___\`, \`<\${p.tag}\${p.attrs}>\${p.content}</\${p.tag}>\`);
         });
 
         self.postMessage({ success: true, result, time: Math.round(performance.now() - start) });
-    } catch(err) {
-        self.postMessage({ success: false, error: err.message });
-    }
-};
-`;
+    } catch(err) { self.postMessage({ success: false, error: err.message }); }
+};`;
 const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
 const worker = new Worker(URL.createObjectURL(workerBlob));
 
-// ---------------- MAIN THREAD LOGIC ----------------
-
 function processHTML() {
-    const html = inputEl.value;
-    if (!html.trim()) { outputEl.textContent = ''; return; }
+    const html = el.input.value;
+    if (!html.trim()) return;
     
     document.getElementById('inSize').textContent = formatBytes(new Blob([html]).size);
 
@@ -713,13 +488,14 @@ function processHTML() {
         html: html,
         mode: currentMode,
         options: {
-            noQuotes: document.getElementById('optNoQuotes').checked,
-            booleans: document.getElementById('optBooleans').checked,
-            minCss: document.getElementById('optMinCss').checked,
-            minJs: document.getElementById('optMinJs').checked,
-            defaults: document.getElementById('optDefaults').checked,
-            smartInline: document.getElementById('optSmartInline').checked,
-            indent: document.getElementById('optIndent').value
+            optQuotes: document.getElementById('optQuotes').checked,
+            optBools: document.getElementById('optBools').checked,
+            optCSS: document.getElementById('optCSS').checked,
+            optJS: document.getElementById('optJS').checked,
+            optDefs: document.getElementById('optDefs').checked,
+            optInline: document.getElementById('optInline').checked,
+            optDeepFormat: document.getElementById('optDeepFormat').checked,
+            optIndent: document.getElementById('optIndent').value
         }
     });
 }
@@ -727,17 +503,15 @@ function processHTML() {
 worker.onmessage = function(e) {
     if (e.data.success) {
         const res = e.data.result;
-        outputEl.textContent = res;
+        el.output.textContent = res;
         
-        // Lines
-        const outLines = res.split('\n').length || 1;
-        outLinesEl.innerHTML = Array(outLines).fill(0).map((_, i) => i + 1).join('<br>');
+        // Update lines & preview
+        const outLinesCount = res.split('\n').length || 1;
+        el.outLines.innerHTML = Array(outLinesCount).fill(0).map((_, i) => i + 1).join('<br>');
+        el.preview.srcdoc = res;
 
-        // Preview
-        previewEl.srcdoc = res;
-
-        // Metrics
-        const origBytes = new Blob([inputEl.value]).size;
+        // Metrics Calculation
+        const origBytes = new Blob([el.input.value]).size;
         const newBytes = new Blob([res]).size;
         document.getElementById('outSize').textContent = formatBytes(newBytes);
         
@@ -748,96 +522,104 @@ worker.onmessage = function(e) {
         document.getElementById('mBytesSaved').textContent = formatBytes(Math.max(0, diff)) + ' removed';
         document.getElementById('mTime').textContent = e.data.time + 'ms';
 
-        // Main Thread Deep Analysis (Scoring & Tree)
-        analyzeAndScore(inputEl.value);
+        // Deep Analysis (Main Thread DOM Parser)
+        analyzeAndVisualize(el.input.value);
 
+        toast(`Engine completed in ${e.data.time}ms`);
     } else {
-        showToast('Syntax/Engine Error: ' + e.data.error);
+        toast('Syntax Error: ' + e.data.error);
     }
 };
 
-// Analysis Engine
-function analyzeAndScore(html) {
+/* ==========================================================================
+   DEEP ANALYSIS & INTERACTIVE DOM TREE
+   ========================================================================== */
+function analyzeAndVisualize(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     
+    // Core Metrics
     const allNodes = doc.querySelectorAll('*');
     document.getElementById('mNodes').textContent = allNodes.length;
 
-    // A11y
-    const imgs = doc.querySelectorAll('img:not([alt])').length;
-    const emptyLinks = Array.from(doc.querySelectorAll('a')).filter(a => !a.textContent.trim() && !a.querySelector('img')).length;
-    const a11yTotal = imgs + emptyLinks;
-    document.getElementById('mA11y').textContent = a11yTotal;
+    // A11y & SEO
+    let issues = [];
+    const imgs = doc.querySelectorAll('img:not([alt])');
+    if (imgs.length) issues.push(`${imgs.length} Img missing Alt`);
     
-    // SEO
-    const hasTitle = doc.querySelector('title') !== null;
-    const hasDesc = doc.querySelector('meta[name="description"]') !== null;
+    const emptyLinks = Array.from(doc.querySelectorAll('a')).filter(a => !a.textContent.trim() && !a.querySelector('img'));
+    if (emptyLinks.length) issues.push(`${emptyLinks.length} Empty Links`);
+    
+    if (!doc.querySelector('title')) issues.push('Missing <title>');
+    if (!doc.querySelector('meta[name="description"]')) issues.push('Missing Meta Desc');
+    
     const h1s = doc.querySelectorAll('h1').length;
+    if (h1s === 0) issues.push('Missing <h1>');
+    if (h1s > 1) issues.push('Multiple <h1>s');
 
-    // Score Algorithm
+    document.getElementById('mIssues').textContent = issues.length;
+    document.getElementById('mIssuesList').textContent = issues.length ? issues[0] + (issues.length > 1 ? '...' : '') : 'Clean Structure';
+
+    // Health Algorithm
     let score = 100;
-    if (a11yTotal > 0) score -= (a11yTotal * 4);
-    if (!hasTitle) score -= 15;
-    if (!hasDesc) score -= 10;
-    if (h1s === 0) score -= 10;
-    if (h1s > 1) score -= 5;
-    if (allNodes.length > 1500) score -= 10; // DOM too large
+    score -= (imgs.length * 3);
+    score -= (emptyLinks.length * 2);
+    if (!doc.querySelector('title')) score -= 15;
+    if (!doc.querySelector('meta[name="description"]')) score -= 10;
+    if (h1s !== 1) score -= 10;
+    if (allNodes.length > 1000) score -= 10;
 
-    const scoreCircle = document.getElementById('healthScore');
-    const scoreDesc = document.getElementById('healthDesc');
-    scoreCircle.className = 'score-circle'; // reset
+    const sCircle = document.getElementById('healthScore');
+    const sDesc = document.getElementById('healthDesc');
+    sCircle.className = 'score-circle'; // reset classes
     
-    if (score >= 90) { scoreCircle.textContent = 'A'; scoreCircle.classList.add('score-A'); scoreDesc.textContent = 'Highly Optimized'; }
-    else if (score >= 75) { scoreCircle.textContent = 'B'; scoreCircle.classList.add('score-B'); scoreDesc.textContent = 'Good / Minor Issues'; }
-    else if (score >= 60) { scoreCircle.textContent = 'C'; scoreCircle.classList.add('score-C'); scoreDesc.textContent = 'Needs Improvement'; }
-    else { scoreCircle.textContent = 'F'; scoreCircle.classList.add('score-D'); scoreDesc.textContent = 'Poor Structure'; }
+    if (score >= 90) { sCircle.textContent = 'A'; sCircle.classList.add('score-A'); sDesc.textContent = 'Perfectly Optimized'; }
+    else if (score >= 75) { sCircle.textContent = 'B'; sCircle.classList.add('score-B'); sDesc.textContent = 'Minor Improvements Needed'; }
+    else if (score >= 60) { sCircle.textContent = 'C'; sCircle.classList.add('score-C'); sDesc.textContent = 'Structural Warnings'; }
+    else { sCircle.textContent = 'D'; sCircle.classList.add('score-D'); sDesc.textContent = 'Poor Health / SEO'; }
 
-    // Build Visual DOM Tree
-    buildDomTree(doc.body);
-}
-
-function buildDomTree(root) {
-    const container = document.getElementById('domTreeView');
-    container.innerHTML = '<h4>Document Body Structure</h4><br>';
+    // Build Interactive Collapsible Tree
+    const treeContainer = document.getElementById('domTreeView');
+    treeContainer.innerHTML = ''; // Clear
     
-    function createNode(el, depth) {
-        if (depth > 10) return ''; // Prevent infinite recursion on crazy doms
-        if (el.nodeType === 3) {
-            let txt = el.textContent.trim();
-            if (txt) return `<div class="tree-node"><span class="tree-text">"${txt.length > 30 ? txt.substring(0,30)+'...' : txt}"</span></div>`;
-            return '';
+    function buildNodeTree(node) {
+        if (node.nodeType === 3) {
+            let txt = node.textContent.trim();
+            return txt ? `<div class="tree-text">"${txt.length > 50 ? txt.substring(0,50)+'...' : txt}"</div>` : '';
         }
-        if (el.nodeType !== 1) return ''; // Only Elements
+        if (node.nodeType !== 1) return ''; // Only Elements
 
-        let tag = el.tagName.toLowerCase();
-        let attrsStr = '';
-        if (el.id) attrsStr += ` <span class="tree-attr">id="${el.id}"</span>`;
-        if (el.className) attrsStr += ` <span class="tree-attr">class="${el.className}"</span>`;
+        let tag = node.tagName.toLowerCase();
+        let attrs = '';
+        Array.from(node.attributes).forEach(attr => {
+            attrs += ` <span class="tree-attr">${attr.name}</span>=<span class="tree-val">"${attr.value}"</span>`;
+        });
 
-        let html = `<div class="tree-node">`;
-        html += `<span class="tree-tag">&lt;${tag}&gt;</span>${attrsStr}`;
+        // Check if node has elemental children (not just text)
+        let hasElementChildren = Array.from(node.childNodes).some(n => n.nodeType === 1 || (n.nodeType === 3 && n.textContent.trim()));
         
-        let childHtml = '';
-        el.childNodes.forEach(child => { childHtml += createNode(child, depth + 1); });
-        
-        html += childHtml;
-        if (childHtml !== '') html += `<div style="margin-top:2px;"><span class="tree-tag">&lt;/${tag}&gt;</span></div>`;
-        html += `</div>`;
-        
+        if (!hasElementChildren) {
+            return `<div style="margin-left: 20px;"><span class="tree-tag">&lt;${tag}</span>${attrs}<span class="tree-tag"> /&gt;</span></div>`;
+        }
+
+        let html = `<details open><summary><span class="tree-tag">&lt;${tag}</span>${attrs}<span class="tree-tag">&gt;</span></summary>`;
+        node.childNodes.forEach(child => { html += buildNodeTree(child); });
+        html += `<div style="margin-left: 20px; opacity: 0.5;"><span class="tree-tag">&lt;/${tag}&gt;</span></div></details>`;
         return html;
     }
     
-    container.innerHTML += createNode(root, 0);
+    treeContainer.innerHTML = buildNodeTree(doc.documentElement);
 }
 
-// Utility Actions
+// Utility Buttons
 function copyOutput() {
-    navigator.clipboard.writeText(outputEl.textContent).then(() => showToast('Copied to Clipboard!'));
+    if(!el.output.textContent) return;
+    navigator.clipboard.writeText(el.output.textContent).then(() => toast('Copied to Clipboard! 📋'));
 }
+
 function downloadOutput() {
-    if(!outputEl.textContent) return;
-    const blob = new Blob([outputEl.textContent], { type: 'text/html' });
+    if(!el.output.textContent) return;
+    const blob = new Blob([el.output.textContent], { type: 'text/html' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `quantum_${currentMode}.html`;
@@ -845,65 +627,53 @@ function downloadOutput() {
 }
 
 function loadSample() {
-    inputEl.value = `<!DOCTYPE html>
+    el.input.value = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Quantum HTML Pro Test</title>
-    <!-- Remove this comment -->
+    <!-- Intentionally missing Description for Analysis -->
+    <title>Quantum Apex Test</title>
     <style type="text/css">
-        body { 
-            font-family: sans-serif; 
-            background: #111;
-            color: white;
-        }
-        .container {
-            padding: 20px;
-        }
+        body { background: #000; color: #fff; font-family: sans-serif; }
+        .hero { padding: 2rem; border-radius: 10px; }
+        /* CSS to be minified */
     </style>
 </head>
 <body>
-    <div class="container" id="main-box">
-        <h1>Welcome to Quantum</h1>
+    <div class="hero" id="main" data-test="true">
+        <h1>Welcome to Apex</h1>
+        <h1>Oops, another H1</h1>
         
-        <p>
-            This paragraph contains <b>inline tags</b> that should 
-            <a href="#">not break</a> onto new lines when beautified!
-        </p>
+        <p>This paragraph contains <b>inline tags</b> that should <a href="#">not break</a> onto new lines when beautified!</p>
         
-        <input type="text" checked="checked" disabled="disabled" class="test-input" />
+        <input type="text" checked="checked" disabled="disabled" class="input-box" />
         
         <img src="none.jpg" /> <!-- Missing Alt triggers A11y warning -->
         
         <script type="text/javascript">
-            // This is a test script
-            function test() {
-                const x = 10;
+            // This script block will be deeply processed
+            function runOptimizer() {
+                const arr = [1, 2, 3];
                 /* Block comment to strip */
-                if(x == 10) {
-                    console.log("Hello");
+                if(arr.length > 0) {
+                    console.log("Apex Engine Active");
                 }
             }
         <\/script>
         
         <pre>
-            Protected
-                Spacing
-                    Area
+    Protected
+        Spacing
+            Block
         </pre>
     </div>
 </body>
 </html>`;
-    syncLines(inputEl, inLinesEl);
+    syncLines(el.input, el.inLines);
     processHTML();
 }
 
 // Init
-document.querySelectorAll('input[type=checkbox]').forEach(cb => {
-    cb.addEventListener('change', () => { if(document.getElementById('optAuto').checked) processHTML(); });
-});
-document.getElementById('optIndent').addEventListener('change', processHTML);
-
 loadSample();
 </script>
 </body>
